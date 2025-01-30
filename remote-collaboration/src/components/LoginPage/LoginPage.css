@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url("../../assets/clouds.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid white;
+    opacity: 93%;
+}
+
+.input-boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.buttons button {
+    padding: auto;
+    margin: 10px;
+}
