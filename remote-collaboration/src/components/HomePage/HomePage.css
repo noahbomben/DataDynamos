@@ -1,0 +1,41 @@
+.project-list {
+    position: absolute;
+    top: 80px;
+    left: 100px;
+    color: yellow;
+}
+.project-list ul {
+    background-color: red;
+    padding: 60px 80px;
+}
+
+.create-project {
+    padding: 25px 0px;
+    position: absolute;
+    top: 40px;
+    left: 500px;
+    color: yellow;
+    background-color: red;
+}
+.create-project p {
+    position: relative;
+    right: 200px;
+}
+
+.create {
+    position: relative;
+    padding: 10px 200px;
+    top: 80px;
+    right: 5px;
+    color: white;
+    background-color: blue;
+}
+
+.calendar {
+    position: absolute;
+    padding: 100px 100px;
+    top: 40px;
+    right: 50px;
+    color: yellow;
+    background-color: red;
+}

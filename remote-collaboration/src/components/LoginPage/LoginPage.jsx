@@ -20,6 +20,9 @@ function LoginPage() {
     const handleLogin = () => {
         console.log(email)
         console.log(password)
+        if (email != "" && password != "") {
+            navigate('/HomePage'); 
+        }
     }
 
     const switchToSignUp = () => {
