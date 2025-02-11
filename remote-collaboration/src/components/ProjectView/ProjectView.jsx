@@ -1,10 +1,17 @@
 import React from "react";
 import './ProjectView.css'
-
+import { useNavigate } from "react-router-dom";
 function ProjectView() {
+    const navigate = useNavigate()
+
+    const closeProject = () => {
+        navigate("/HomePage")
+    }
     return(
+
         <>
         <div className="page">
+            <button className="close_project_button" onClick={closeProject}>X</button>
             <div className="projectview-container">
                 <div className="whiteboard-container">
                     <h2>Whiteboard</h2>

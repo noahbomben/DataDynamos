@@ -3,6 +3,7 @@ import React, {
 } from "react";
 import "./LoginPage.css"
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function LoginPage() {
     const [email, setEmail] = useState('')
@@ -23,6 +24,9 @@ function LoginPage() {
         if (email != "" && password != "") {
             navigate('/HomePage'); 
         }
+        else(
+            toast.error("Invalid username or password")
+        )
     }
 
     const switchToSignUp = () => {

@@ -13,20 +13,23 @@ body {
     justify-content: center;
     align-items: center;
     height: 300px;
+    width: 500px;
     margin: 50px auto;
     padding: 20px;
     background-color: lightgray;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 2px solid white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    border: 5px solid rgb(143, 142, 142);
     opacity: 93%;
 }
 
 .input-boxes {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    width: 50%;
+    gap: 20px;
 }
+
 
 .buttons button {
     padding: auto;
