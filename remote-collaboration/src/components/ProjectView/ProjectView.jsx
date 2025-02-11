@@ -1,6 +1,8 @@
 import React from "react";
+import { useState } from "react";
 import './ProjectView.css'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
+;
 function ProjectView() {
     const navigate = useNavigate()
 
@@ -29,12 +31,70 @@ function ProjectView() {
                 </div>
                 <div className="projectcontent">
                     <div className="files"></div>
-                    <div className="chat"></div>
+                    <ChatBox></ChatBox>
                 </div>
             </div>
         </div>
         </>
     )
 }
+
+// MOVE later
+var x = [['green', 'hello'], ['blue', 'hey, when are we meeting?'], ['yellow', 'I thought today... No?'],
+['blue', 'I think we should meet sometime next week lets take a look at the schedule']];
+
+
+function ChatBox() {
+
+    const [fakeData, setFakeData] = useState(x);
+
+    return (
+        <div className="chat">
+            {
+                fakeData.map((item) => {
+                    let profile = item[0];
+                    let msg = item[1];
+                    return(
+                        <Message profileIcon={profile} msg={msg}></Message>
+                    )
+                })
+            }
+            <SendText setFakeData={setFakeData} fakeData={fakeData}></SendText>
+        </div>
+    )
+}
+
+function SendText({setFakeData, fakeData}) {
+
+    const [text, setText] = useState("");
+
+    const updateText = (e) => {
+        setText(e.target.value);
+    }
+
+    const sendText = () => {
+        if (text.length > 0) {
+            setFakeData([... fakeData, ['black', text]]); 
+            setText("");  
+        }  
+    }
+
+    return (  /* img cut off fix later*/
+        <div className="text-container">
+            <input className="text" placeholder="Write message" onChange={updateText} value={text}></input>
+            <button className="send-text" onClick={sendText}></button>
+        </div>
+    )
+}
+
+function Message({profileIcon, msg}) {
+    return (
+        <div className="msg-container">
+            <div className="profile-icon" style={{backgroundColor: profileIcon}}></div>
+            <div className="msg"><p style={{overflowWrap: "break-word"}}>{msg}</p></div>
+        </div>
+    )
+}
+
 
 export default ProjectView
