@@ -20,23 +20,48 @@
 .project-list button {
     display: flex;
     margin-bottom: 10px;
-    background-color: rgb(200, 200, 200);
     padding: 60px 80px;
+    color: black;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    border: 5px solid rgb(143, 142, 142);
+    opacity: 93%;
 }
 
 .create-project {
     padding: 25px 0px;
     top: 40px;
-    left: 500px;
-    color: yellow;
+    left: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
     width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    border: 5px solid rgb(143, 142, 142);
+    opacity: 93%;
 }
 .create-project p {
     position: relative;
+    right: 100px;
     color: black;
-    font-size: 18;
-    width:fit-content;
-    margin-left: 30px;
 }
 
 .create {
@@ -48,7 +73,7 @@
     width: 300px;
     margin: auto;
     color: white;
-    background-color: rgb(70, 70, 100);
+    background-color: darkblue;
 }
 
 .calendar {
@@ -59,6 +84,6 @@
     padding-top: 100px;
     /*top: 40px;
     right: 50px;
-    color: yellow;*/
-    background-color: rgb(200, 200, 200);
+    color: yellow;
+    background-color: white;
 }
