@@ -10,7 +10,7 @@ function HomePage() {
     }
 
     return (
-        <>
+        <div className="HomePage">
             <div className="project-list">
                 <button onClick={openProject}>Project 1</button>
                 <button onClick={openProject}>Project 2</button>
@@ -24,11 +24,11 @@ function HomePage() {
                 <p>Description</p>
                 <input type="text" placeholder="Description" />
             </div>
-            <button className="create">Create project</button>
             <div className="calendar">
                 <h1>Calendar</h1>
             </div>
-        </>
+            <button className="create">Create project</button>
+        </div>
     );
 }
 

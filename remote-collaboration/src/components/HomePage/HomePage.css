@@ -1,43 +1,64 @@
+
+.HomePage{
+    display: flex;
+    position: relative;
+    min-width: 60vw;
+    min-height: 67vh;
+    padding: 0 2em;
+    background-color: rgb(243, 243, 243);
+    border-radius: 8px;
+}
+
 .project-list {
-    position: absolute;
-    top: 80px;
-    left: 100px;
+    position: relative;
+    justify-content: left;
+    margin-left: 0px;
+    padding-right: 50px;
+    padding-top: 50px;
     color: yellow;
 }
 .project-list button {
     display: flex;
     margin-bottom: 10px;
-    background-color: red;
+    background-color: rgb(200, 200, 200);
     padding: 60px 80px;
 }
 
 .create-project {
     padding: 25px 0px;
-    position: absolute;
     top: 40px;
     left: 500px;
     color: yellow;
-    background-color: red;
+    width: 500px;
 }
 .create-project p {
     position: relative;
-    right: 200px;
+    color: black;
+    font-size: 18;
+    width:fit-content;
+    margin-left: 30px;
 }
 
 .create {
-    position: relative;
-    padding: 10px 200px;
-    top: 80px;
-    right: 5px;
+    position: fixed;
+    justify-content: center;
+    padding: 10px 10px;
+    bottom: 50px;
+    height: 70px;
+    width: 300px;
+    margin: auto;
     color: white;
-    background-color: blue;
+    background-color: rgb(70, 70, 100);
 }
 
 .calendar {
-    position: absolute;
-    padding: 100px 100px;
-    top: 40px;
+    margin-top: 50px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    padding-top: 100px;
+    /*top: 40px;
     right: 50px;
-    color: yellow;
-    background-color: red;
+    color: yellow;*/
+    background-color: rgb(200, 200, 200);
 }
