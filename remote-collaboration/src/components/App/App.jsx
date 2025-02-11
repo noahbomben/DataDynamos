@@ -8,6 +8,7 @@ import {
 import LoginPage from "../LoginPage/LoginPage.jsx"
 import SignUpPage from "../SignUpPage/SignUpPage.jsx"
 import HomePage from "../HomePage/HomePage.jsx"
+import ProjectView from '../ProjectView/ProjectView.jsx'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/SignUpPage" element={<SignUpPage />} />
         <Route path="/HomePage" element={<HomePage />} />
+        <Route path="/ProjectView" element={<ProjectView />} />
       </Routes>
     </Router>
   )
