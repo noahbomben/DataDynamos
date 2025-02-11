@@ -4,7 +4,9 @@
     left: 100px;
     color: yellow;
 }
-.project-list ul {
+.project-list button {
+    display: flex;
+    margin-bottom: 10px;
     background-color: red;
     padding: 60px 80px;
 }
