@@ -1,6 +1,7 @@
 import React,{useState} from "react";
-import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "./HomePage.css";
 
 function HomePage() {
     const [projects, setProjects] = useState([])
@@ -13,15 +14,19 @@ function HomePage() {
     }
 
     const handleProject = () => {
-        const newProjects = projects
-        const project = {
-            name: projectName,
-            description: projectDescription
+        if (projectName !== "" && projectDescription !== "") {
+            const newProjects = projects
+            const project = {
+                name: projectName,
+                description: projectDescription
+            }
+            newProjects.push(project)
+            setProjects(newProjects)
+            setProjectName("")
+            setProjectDescription("")
+        } else {
+            toast.error("Please enter project name and description");
         }
-        newProjects.push(project)
-        setProjects(newProjects)
-        setProjectName("")
-        setProjectDescription("")
     }
 
     const handleProjectName = (event) => {
