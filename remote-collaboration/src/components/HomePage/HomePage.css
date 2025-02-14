@@ -8,7 +8,7 @@
     background-color: rgb(243, 243, 243);
     border-radius: 8px;
 }
-
+/*
 .project-list {
     position: relative;
     justify-content: left;
@@ -83,6 +83,78 @@
     height: 500px;
     padding-top: 100px;
     /*top: 40px;
+    right: 50px;
+    color: yellow;
+    background-color: white;
+}*/
+
+.project-list {
+    position: absolute;
+    top: 80px;
+    left: 100px;
+    color: yellow;
+}
+.project-list button {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 60px 80px;
+    color: black;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    border: 5px solid rgb(143, 142, 142);
+    opacity: 93%;
+}
+
+.create-project {
+    padding: 25px 0px;
+    position: relative;
+    top: 40px;
+    left: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    border: 5px solid rgb(143, 142, 142);
+    opacity: 93%;
+}
+.create-project p {
+    position: relative;
+    right: 100px;
+    color: black;
+}
+
+.create {
+    position: relative;
+    padding: 10px 200px;
+    top: 80px;
+    right: 5px;
+    color: white;
+    background-color: darkblue;
+}
+
+.calendar {
+    position: absolute;
+    padding: 100px 100px;
+    top: 40px;
     right: 50px;
     color: yellow;
     background-color: white;
