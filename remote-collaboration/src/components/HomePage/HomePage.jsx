@@ -4,14 +4,14 @@ import { toast } from "react-toastify";
 import "./HomePage.css";
 
 function HomePage() {
-    const [projects, setProjects] = useState([])
+    const [projects, setProjects] = useState(localStorage.getItem("Projects") ? JSON.parse(localStorage.getItem("Projects")) : [])
     const [projectName, setProjectName] = useState("")
     const [projectDescription, setProjectDescription] = useState("")
     const [emailList, setEmailList] = useState("")
     const navigate = useNavigate();
 
-    const openProject = () => {
-        navigate("/ProjectView")
+    const openProject = (Project) => {
+        navigate("/ProjectView", { state: Project})
     }
 
     const handleProject = () => {
@@ -22,6 +22,7 @@ function HomePage() {
                 description: projectDescription
             }
             newProjects.push(project)
+            localStorage.setItem("Projects", JSON.stringify(newProjects));
             setProjects(newProjects)
             setProjectName("")
             setProjectDescription("")
@@ -50,7 +51,7 @@ function HomePage() {
             <ul>
                 {
                     projects.map((Project) => (
-                        <button onClick={openProject}>{Project.name}
+                        <button onClick={() => openProject(Project)}>{Project.name}
                         <br />--------------------<br />
                         {Project.description}</button>
                     ))

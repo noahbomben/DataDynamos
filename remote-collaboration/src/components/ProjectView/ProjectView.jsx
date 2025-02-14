@@ -1,10 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import './ProjectView.css'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 ;
 function ProjectView() {
     const navigate = useNavigate()
+    const location = useLocation();
+    const project = location.state;
 
     const closeProject = () => {
         navigate("/HomePage")
@@ -21,8 +23,8 @@ function ProjectView() {
                 </div>
                 <div className="projectinfo">
                     <div className="info">
-                        <h1>Project Name</h1>
-                        <p>Description of the project</p>
+                        <h1>{project.name}</h1>
+                        <p>{project.description}</p>
                     </div>
                     <div className="members">
                         <h2>Members</h2>
