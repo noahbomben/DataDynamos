@@ -1,3 +1,17 @@
+body {
+    background-color: rgb(243, 243, 243);
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px gray;
+}
+
 .project-list {
     position: absolute;
     top: 80px;
@@ -19,16 +33,16 @@
     width: 300px;
     margin: 50px auto;
     padding: 20px;
-    background-color: lightgray;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    border: 5px solid rgb(143, 142, 142);
+    border: 5px solid white;
     opacity: 93%;
 }
 
 .create-project {
     padding: 25px 0px;
-    position: absolute;
+    /* position: absolute; */
     top: 40px;
     left: 680px;
     display: flex;
@@ -40,19 +54,19 @@
     width: 500px;
     margin: 50px auto;
     padding: 20px;
-    background-color: lightgray;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    border: 5px solid rgb(143, 142, 142);
+    border: 5px solid white;
     opacity: 93%;
 }
 .create-project p {
     position: relative;
-    right: 100px;
+    right: 200px;
     color: black;
 }
 
-.create {
+.create-button {
     position: relative;
     padding: 10px 200px;
     top: 80px;
@@ -62,10 +76,10 @@
 }
 
 .calendar {
-    position: absolute;
+    position: relative;
     padding: 100px 100px;
-    top: 40px;
-    right: 50px;
+    top: -450px;
+    left: 600px;
     color: yellow;
     background-color: white;
 }
