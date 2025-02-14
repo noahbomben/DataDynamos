@@ -4,11 +4,11 @@ This project is a collaboration tool to be able to collaborate with others by cr
 
 ## How to Set Up and Run
 
-# Step One
+### Step One
 
 Install the files and dependencies by doing "npm install".
 
-# Step Two
+### Step Two
 
 To run the project, do "npm run dev".
 
