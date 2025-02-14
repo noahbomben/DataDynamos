@@ -7,6 +7,7 @@ function HomePage() {
     const [projects, setProjects] = useState([])
     const [projectName, setProjectName] = useState("")
     const [projectDescription, setProjectDescription] = useState("")
+    const [emailList, setEmailList] = useState("")
     const navigate = useNavigate();
 
     const openProject = () => {
@@ -24,6 +25,7 @@ function HomePage() {
             setProjects(newProjects)
             setProjectName("")
             setProjectDescription("")
+            setEmailList("")
         } else {
             toast.error("Please enter project name and description");
         }
@@ -35,6 +37,11 @@ function HomePage() {
 
     const handleProjectDescription = (event) => {
         setProjectDescription(event.target.value)
+    }
+
+    const handleInvitation = (event) => {
+        setEmailList(event.target.value)
+        //at some point, this will be used to send email invitations to collaborators
     }
 
     return (
@@ -56,14 +63,37 @@ function HomePage() {
                 <input type="text" className="project-input" placeholder="Project name" value={projectName} onChange={handleProjectName}/>
                 <p>Description</p>
                 <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
+                <p>Invite people</p>
+                <input type="text" className="project-input" placeholder="Email address" value={emailList} onChange={handleInvitation}/>
             </div>
             <button className="create-button" onClick={handleProject}>Create project</button>
-            <div className="calendar">
-                <h1>Calendar</h1>
-            </div>
-            <button className="create" onClick={handleProject}>Create project</button>
+            <Calendar/>
         </>
     );
+}
+
+function Calendar (){
+    return (
+        <div className="calendar">
+            <h1> Weekly Calendar</h1>
+            <dl>
+                <dt>Sunday</dt>
+                <dd>To do:</dd>
+                <dt>Monday</dt>
+                <dd>To do:</dd>
+                <dt>Tuesday</dt>
+                <dd>To do:</dd>
+                <dt>Wednesday</dt>
+                <dd>To do:</dd>
+                <dt>Thursday</dt>
+                <dd>To do:</dd>
+                <dt>Friday</dt>
+                <dd>To do:</dd>
+                <dt>Saturday</dt>
+                <dd>To do:</dd>
+            </dl>
+        </div>
+    )
 }
 
 export default HomePage;
