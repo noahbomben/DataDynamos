@@ -1,98 +1,22 @@
-
-.HomePage{
-    display: flex;
-    position: relative;
-    min-width: 60vw;
-    min-height: 67vh;
-    padding: 0 2em;
+body {
     background-color: rgb(243, 243, 243);
-    border-radius: 8px;
-}
-/*
-.project-list {
-    position: relative;
-    justify-content: left;
-    margin-left: 0px;
-    padding-right: 50px;
-    padding-top: 50px;
-    color: yellow;
-}
-.project-list button {
-    display: flex;
-    margin-bottom: 10px;
-    padding: 60px 80px;
-    color: black;
-
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: lightgray;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    border: 5px solid rgb(143, 142, 142);
-    opacity: 93%;
 }
 
-.create-project {
-    padding: 25px 0px;
-    top: 40px;
-    left: 680px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    height: 300px;
-    width: 500px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: lightgray;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    border: 5px solid rgb(143, 142, 142);
-    opacity: 93%;
+input.project-input {
+    width: 100%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px gray;
+    outline-style: none;
 }
-.create-project p {
-    position: relative;
-    right: 100px;
-    color: black;
-}
-
-.create {
-    position: fixed;
-    justify-content: center;
-    padding: 10px 10px;
-    bottom: 50px;
-    height: 70px;
-    width: 300px;
-    margin: auto;
-    color: white;
-    background-color: darkblue;
-}
-
-.calendar {
-    margin-top: 50px;
-    right: 20px;
-    width: 400px;
-    height: 500px;
-    padding-top: 100px;
-    /*top: 40px;
-    right: 50px;
-    color: yellow;
-    background-color: white;
-}*/
 
 .project-list {
     position: absolute;
     top: 80px;
     left: 100px;
-    color: yellow;
 }
 .project-list button {
     display: flex;
@@ -109,16 +33,16 @@
     width: 300px;
     margin: 50px auto;
     padding: 20px;
-    background-color: lightgray;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    border: 5px solid rgb(143, 142, 142);
+    border: 5px solid white;
     opacity: 93%;
 }
 
 .create-project {
     padding: 25px 0px;
-    position: relative;
+    /* position: absolute; */
     top: 40px;
     left: 680px;
     display: flex;
@@ -130,19 +54,26 @@
     width: 500px;
     margin: 50px auto;
     padding: 20px;
-    background-color: lightgray;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    border: 5px solid rgb(143, 142, 142);
+    border: 5px solid white;
     opacity: 93%;
 }
-.create-project p {
+
+.create-project h1 {
     position: relative;
-    right: 100px;
+    right: 70px;
     color: black;
 }
 
-.create {
+.create-project p {
+    position: relative;
+    right: 200px;
+    color: black;
+}
+
+.create-button {
     position: relative;
     padding: 10px 200px;
     top: 80px;
@@ -152,10 +83,10 @@
 }
 
 .calendar {
-    position: absolute;
+    position: relative;
     padding: 100px 100px;
-    top: 40px;
-    right: 50px;
+    top: -450px;
+    left: 600px;
     color: yellow;
     background-color: white;
 }
