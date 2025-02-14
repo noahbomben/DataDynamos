@@ -53,9 +53,9 @@ function HomePage() {
             <div className="create-project">
                 <h1>Create New Project +</h1>
                 <p>Project name</p>
-                <input type="text" placeholder="Project name" value={projectName} onChange={handleProjectName}/>
+                <input type="text" className="project-input" placeholder="Project name" value={projectName} onChange={handleProjectName}/>
                 <p>Description</p>
-                <input type="text" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
+                <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
             </div>
             <button className="create-button" onClick={handleProject}>Create project</button>
             <div className="calendar">

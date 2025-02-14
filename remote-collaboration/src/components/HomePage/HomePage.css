@@ -2,7 +2,7 @@ body {
     background-color: rgb(243, 243, 243);
 }
 
-input {
+input.project-input {
     width: 100%;
     padding: 12px 20px;
     display: inline-block;
@@ -10,13 +10,13 @@ input {
     border-radius: 4px;
     box-sizing: border-box;
     box-shadow: 0 1px 2px gray;
+    outline-style: none;
 }
 
 .project-list {
     position: absolute;
     top: 80px;
     left: 100px;
-    color: yellow;
 }
 .project-list button {
     display: flex;
@@ -60,6 +60,13 @@ input {
     border: 5px solid white;
     opacity: 93%;
 }
+
+.create-project h1 {
+    position: relative;
+    right: 70px;
+    color: black;
+}
+
 .create-project p {
     position: relative;
     right: 200px;
