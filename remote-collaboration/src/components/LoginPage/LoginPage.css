@@ -22,11 +22,11 @@ body {
 }
 
 #login-app-name{
-    padding-bottom: 10px;
-    font-size: 40px;
+    padding-bottom: 0px;
+    font-size: 50px;
     font-weight: bold;
     text-align: center;
-    font-family: 'Kanit';
+    font-family: 'DM Sans', Arial, Helvetica, sans-serif;
     color: rgb(28, 142, 218);
 }
 
