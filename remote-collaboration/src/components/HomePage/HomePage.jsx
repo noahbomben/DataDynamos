@@ -47,28 +47,30 @@ function HomePage() {
 
     return (
         <>
-            <div className="project-list">
-            <ul>
-                {
-                    projects.map((Project) => (
-                        <button onClick={() => openProject(Project)}>{Project.name}
-                        <br />--------------------<br />
-                        {Project.description}</button>
-                    ))
-                }
-            </ul>
+            <div className="project-page">
+                <div className="project-list">
+                    <ul>
+                        {
+                            projects.map((Project) => (
+                                <button onClick={() => openProject(Project)}> <h2>{Project.name}</h2>
+                                {/* <br />--------------------<br /> */}
+                                <p>{Project.description}</p></button>
+                            ))
+                        }
+                    </ul>
+                </div>
+                <div className="create-project">
+                    <h1>Create New Project +</h1>
+                    <p>Project Name</p>
+                    <input type="text" className="project-input" placeholder="Project Name" value={projectName} onChange={handleProjectName}/>
+                    <p>Description</p>
+                    <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
+                    <p>Invite People</p>
+                    <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={handleInvitation}/>
+                    <button className="create-button" onClick={handleProject}>Create project</button>
+                </div>
+                <Calendar/>
             </div>
-            <div className="create-project">
-                <h1>Create New Project +</h1>
-                <p>Project name</p>
-                <input type="text" className="project-input" placeholder="Project name" value={projectName} onChange={handleProjectName}/>
-                <p>Description</p>
-                <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
-                <p>Invite people</p>
-                <input type="text" className="project-input" placeholder="Email address" value={emailList} onChange={handleInvitation}/>
-            </div>
-            <button className="create-button" onClick={handleProject}>Create project</button>
-            <Calendar/>
         </>
     );
 }

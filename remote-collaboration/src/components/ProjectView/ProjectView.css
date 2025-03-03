@@ -1,53 +1,67 @@
 
-.page{
-    min-width: 60vw;
-    min-height: 67vh; /*Alex: Set to prevent flex overflow in chat element, feel free to change*/
-    padding: 0 2em;
+.projectview_page{
     background-color: rgb(243, 243, 243);
-    border-radius: 8px;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    font-family: 'DM Sans', Arial, Helvetica, sans-serif;
 }
 
-h1 {
-    font-size: 35px;
+.projectview_page h1 {
+    font-size: 2.2rem;
     color: black;
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
 }
 
-h2 {
-    font-size: 21px;
+.projectview_page h2 {
+    font-size: 1.3rem;
     color: black;
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
 }
 
-p {
+.projectview_page p {
     color: rgb(109, 109, 109);
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+.close_project_button {
+    position: absolute;
+    border-radius: 12px;
+    background-color: #4F46E5;
+    color: white;
 }
 
 .projectview-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(5, 1fr); 
-    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .whiteboard-container {
-    margin: 50px 10px 50px 20px;
+    margin: 50px 10px 10px 20px;
     text-align: left;
     grid-area: 1 / 1 / 7 / 2;
+    height: 100%;
 }
 
 .whiteboard {
     width: 100%;
-    height: 92%;
+    height: 90%;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 .projectinfo {
     display: flex;
     grid-area: 1 / 2 / 2 / 4;
-    margin: 50px 20px 10px 10px;
+    margin: 50px 20px 0px 10px;
     border-bottom: 1px solid rgb(202, 202, 202);
 }
 
@@ -87,26 +101,28 @@ p {
 .projectcontent {
     display: flex;
     grid-area: 2 / 2 / 6 / 4;
-    margin: 10px 20px 50px 10px;
-    height: 92%;
+    margin: 20px 20px 15px 10px;
+    width: 100%;
+    height: 100%;
 }
 
 .files {
-    width: 45%;
-    height: 50%;
+    width: 40%;
+    height: 70%;
     margin-right: 10px;
     padding: 0px 20px;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 .chat {
     flex-grow: 0;
-    width: 55%;
+    width: 50%;
+    height: 97.5%;
     margin-left: 10px;
     padding: 2% 2% 0 1%;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 20px;
     overflow-y: auto;
     position: relative;
     display: flex;
@@ -122,7 +138,11 @@ p {
     bottom: 2%;
     padding: 0 2% 0 4%;
     flex: 1;
-    border-radius: 13px;
+    border-radius: 15px;
+}
+
+.projectview_page input {
+    box-shadow: none;
 }
 
 .text{
@@ -162,8 +182,9 @@ p {
     padding: 3%;
     align-items: center;
     /* justify-content: flex-start; */
-    border-radius: 5px;
+    border-radius: 15px;
     white-space: initial;
     overflow-wrap: break-word;
+    text-align: left;
 }
 
