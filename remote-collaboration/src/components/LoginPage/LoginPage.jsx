@@ -59,7 +59,7 @@ function LoginPage() {
         return (
             <>
                 <div className="login-container">
-                    <h1 id="login-app-name">[App Name]</h1>
+                    <h1 id="login-app-name">CloudSpace</h1>
                     <div className="login-input-boxes">
                         <input type="email" className="login-email" placeholder="Username or Email" value={email} onChange={changeEmail}/>
                         <input type="password" className="login-password" placeholder="Password" value={password} onChange={changePassword}/>

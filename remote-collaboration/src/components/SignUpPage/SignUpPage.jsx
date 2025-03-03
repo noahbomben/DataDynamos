@@ -75,7 +75,7 @@ function SignUpPage() {
   return (
     <>
       <div className="signup-container">
-        <h1 id="signup-app-name">[App Name]</h1>
+        <h1 id="signup-app-name">CloudSpace</h1>
         <div className="signup-input-boxes">
           <input
             type="email"

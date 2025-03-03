@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import './ProjectView.css'
-import { useNavigate, useLocation } from "react-router-dom"
-;
+import { useNavigate, useLocation } from "react-router-dom";
+import WhiteBoard from "../WhiteBoard/WhiteBoard";
+
 function ProjectView() {
     const navigate = useNavigate()
     const location = useLocation();
@@ -19,7 +20,7 @@ function ProjectView() {
             <div className="projectview-container">
                 <div className="whiteboard-container">
                     <h2>Whiteboard</h2>
-                    <div className="whiteboard"></div>
+                    <WhiteBoard />
                 </div>
                 <div className="projectinfo">
                     <div className="info">

@@ -20,10 +20,12 @@ body {
 }
 
 #signup-app-name{
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     font-size: 40px;
     font-weight: bold;
     text-align: center;
+    font-family: 'Kanit';
+    color: rgb(28, 142, 218);
 }
 
 .signup-input-boxes {
@@ -32,9 +34,20 @@ body {
     width: 75%;
     gap: 40px;
 }
-
+      
 
 .signup-buttons button {
     padding: auto;
     margin: 10px;
+}
+
+input.signup-email, input.signup-password {
+    width: 100%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px gray;
+    outline-style: none;
 }
