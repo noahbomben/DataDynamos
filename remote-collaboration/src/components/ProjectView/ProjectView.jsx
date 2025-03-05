@@ -16,7 +16,7 @@ function ProjectView() {
 
         <>
             <div className="projectview_page">
-                <button className="close_project_button" onClick={closeProject}>X</button>
+                <button className="close_project_button" onClick={closeProject}>Home</button>
                 <div className="projectview-container">
                     <div className="whiteboard-container">
                         <h2>Whiteboard</h2>
