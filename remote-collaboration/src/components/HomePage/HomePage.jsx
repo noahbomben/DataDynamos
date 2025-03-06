@@ -45,9 +45,14 @@ function HomePage() {
         //at some point, this will be used to send email invitations to collaborators
     }
 
+    const logout = () => {
+        navigate("/")
+    }
+
     return (
         <>
             <div className="project-page">
+                <button className="logout_button" onClick={logout}>Logout</button>
                 <div className="project-list">
                     <ul>
                         {

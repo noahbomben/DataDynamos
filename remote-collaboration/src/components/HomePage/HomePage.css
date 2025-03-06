@@ -2,6 +2,10 @@ body {
     background-color: rgb(243, 243, 243);
 }
 
+.header {
+    top: 10px;
+}
+
 .project-page {
     background-color: rgb(243, 243, 243);
     position: fixed;
@@ -156,4 +160,13 @@ body {
     background-color: white;    
     /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7); */
 
+}
+
+.logout_button {
+    position: absolute;
+    border-radius: 12px;
+    background-color: #4F46E5;
+    color: white;
+    right: 30px;
+    top: 10px;
 }
