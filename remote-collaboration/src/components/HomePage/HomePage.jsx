@@ -69,7 +69,7 @@ function HomePage() {
                     <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={handleInvitation}/>
                     <button className="create-button" onClick={handleProject}>Create project</button>
                 </div>
-                <Calendar/>
+                <Calendar></Calendar>
             </div>
         </>
     );

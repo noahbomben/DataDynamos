@@ -20,7 +20,7 @@ function ProjectView() {
                 <div className="projectview-container">
                     <div className="whiteboard-container">
                         <h2>Whiteboard</h2>
-                        <div className="whiteboard"></div>
+                        <WhiteBoard></WhiteBoard>
                     </div>
                     <div className="projectinfo">
                         <div className="info">
