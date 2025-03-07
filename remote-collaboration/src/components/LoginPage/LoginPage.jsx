@@ -1,39 +1,86 @@
-import React, {
-    useState
-} from "react";
-import "./LoginPage.css"
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import Background from "../../assets/background-clouds.avif";
 
-function LoginPage() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const navigate = useNavigate()
-    
-    const changeEmail = (event) => {
-        setEmail(event.target.value);
-    }
+import "./LoginPage.css";
 
-    const changePassword = (event) =>{
-        setPassword(event.target.value)
-    }
+const loginSchema = z.object({
+  email: z.string().email({ message: "Invalid email format" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+});
 
-    const handleLogin = () => {
-        console.log(email)
-        console.log(password)
-        if (email != "" && password != "") {
-            navigate('/HomePage'); 
-        }
-        else(
-            toast.error("Invalid username or password")
-        )
-    }
+const LoginPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+  const navigate = useNavigate();
 
-    const switchToSignUp = () => {
-        navigate('/SignUpPage'); 
+  // const changeEmail = (event) => {
+  //     setEmail(event.target.value);
+  // }
+
+  // const changePassword = (event) =>{
+  //     setPassword(event.target.value)
+  // }
+
+  // const handleLogin = () => {
+  //     console.log(email)
+  //     console.log(password)
+  //     if (email != "" && password != "") {
+  //         navigate('/HomePage');
+  //     }
+  //     else(
+  //         toast.error("Invalid username or password")
+  //     )
+  // }
+
+  useEffect(() => {
+    const errorKeys = Object.keys(errors);
+    errorKeys.forEach((key, index) => {
+      setTimeout(() => {
+        toast.error(errors[key].message);
+      }, (index + 1) * 1000);
+    });
+  }, [errors]);
+
+  const switchToSignUp = () => {
+    navigate("/SignUpPage");
+  };
+
+  const onSubmit = async (data) => {
+    console.log("Login")
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+
+      const responseData = await response.json()
+      if (response.ok) {
+        toast.success("Login Successfull")
+        navigate("/HomePage")
+      } else {
+        toast.error(data.message || "Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during signup. Please try again.");
     }
+  };
+
 
   useEffect(() => {
     // Apply background image only for the login page
@@ -56,24 +103,32 @@ function LoginPage() {
     };
   }, []);
 
-        return (
-            <>
-                <div className="login-container">
-                    <h1 id="login-app-name">CloudSpace</h1>
-                    <div className="login-input-boxes">
-                        <input type="email" className="login-email" placeholder="Username or Email" value={email} onChange={changeEmail}/>
-                        <input type="password" className="login-password" placeholder="Password" value={password} onChange={changePassword}/>
-                    </div>
-                    <div className="login-buttons">
-                        <button id="login-login-button" onClick={handleLogin}>Login</button>
-                        <button id="login-signup-button" onClick={switchToSignUp}>Sign Up</button>
-                    </div>
-                </div>
-                
-            </>
-        )
-}
+  return (
+    <>
+      <div className="login-container">
+        <h1 id="login-app-name">CloudSpace</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <h2 className="title">Sign up</h2>
+          </div>
+          <div className="email-login">
+            <label htmlFor="email"><b>Email</b></label>
+            <input className="login-email" type="email" placeholder="name@abc.com" {...register("email")} />
+            <label htmlFor="password"><b>Password</b></label>
+            <input className="login-password" type="password" placeholder="8+ characters" {...register("password")} />
+          </div>
+          <div className="login-buttons">
+          <button id="login-login-button" type="submit">
+            Login
+          </button>
+          <button id="login-signup-button" onClick={switchToSignUp}>
+            Sign Up
+          </button>
+        </div>
+      </form>
+      </div>
+    </>
+  );
+};
 
-
-
-export default LoginPage
+export default LoginPage;

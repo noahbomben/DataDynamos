@@ -1,55 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Background from "../../assets/background-clouds.avif";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from 'zod';
 import './SignUpPage.css'
 
-function SignUpPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConf, setPasswordConf] = useState("");
+const signupSchema = z
+  .object({
+    email: z.string().email({ message: "Invalid email format" }).nonempty({ message: "Email is required" }),
+    password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z.string().min(6, { message: "Confirm Password must be at least 6 characters" })
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+const SignUpPage = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(signupSchema)
+  });
   const navigate = useNavigate();
-
-  const showToast = () => {
-    console.log("toast")
-    toast.success("Already have an account?", {
-      onClick: switchToLogin,
-      position: "bottom-right",
-      autoClose: false,
-      closeOnClick: true,
-      closeButton: false,
-    });
-  };
-
-  const changeEmail = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const changePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const changePasswordConf = (event) => {
-    setPasswordConf(event.target.value);
-  };
 
   const switchToLogin = () => {
     navigate("/");
   };
 
-  const handleSignUp = () => {
-    console.log(email);
-    console.log(password);
-    if (password !== passwordConf) {
-      toast.error("Passwords do not match");
-    } else if (email != "" && password != "") {
-      navigate("/HomePage");
+  const onSubmit = async (data) => {
+    try{
+      const response = await fetch("http://localhost:3000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+
+      if (response.ok){
+        toast.success("Signup Succesfull")
+        navigate("/")
+      } else {
+        toast.error(response.message || "Signup failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast.error("An error occurred during signup. Please try again.");
     }
   };
 
-  useEffect(() => {
-    showToast();
-  }, []);
 
   useEffect(() => {
     // Apply background image only for the login page
@@ -76,34 +76,27 @@ function SignUpPage() {
     <>
       <div className="signup-container">
         <h1 id="signup-app-name">CloudSpace</h1>
-        <div className="signup-input-boxes">
-          <input
-            type="email"
-            className="signup-email"
-            placeholder="Email"
-            value={email}
-            onChange={changeEmail}
-          />
-          <input
-            type="password"
-            className="signup-password"
-            placeholder="Password"
-            value={password}
-            onChange={changePassword}
-          />
-          <input
-            type="password"
-            className="signup-password"
-            placeholder="Confirm Password"
-            value={passwordConf}
-            onChange={changePasswordConf}
-          />
-        </div>
-        <div className="signup-buttons">
-          <button id="signup-signup-button" onClick={handleSignUp}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <h2 className="title">Sign up</h2>
+          </div>
+          <div className="email-login">
+            <label htmlFor="email"><b>Email</b></label>
+            <input className="signup-email" type="email" placeholder="name@abc.com" {...register("email")} />
+            <label htmlFor="password"><b>Password</b></label>
+            <input className="signup-password" type="password" placeholder="8+ characters" {...register("password")} />
+            <label htmlFor="confirmPassword"><b>Confirm Password</b></label>
+            <input className="signup-password" type="password" placeholder="Repeat your password" {...register("confirmPassword")} />
+          </div>
+          <div className="signup-buttons">
+          <button id="signup-signup-button" type="submit">
             Sign Up
           </button>
+          <button id="signup-login-button" onClick={switchToLogin}>
+            login
+          </button>
         </div>
+      </form>
       </div>
     </>
   );
