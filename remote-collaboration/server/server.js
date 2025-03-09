@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+const mongoose = require("mongoose");
+// import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");

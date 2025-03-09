@@ -3,6 +3,7 @@ import { useState } from "react";
 import './ProjectView.css'
 import { useNavigate, useLocation } from "react-router-dom";
 import WhiteBoard from "../WhiteBoard/WhiteBoard";
+import FileUpload from "../FileUpload/FileUpload";
 
 function ProjectView() {
     const navigate = useNavigate()
@@ -33,7 +34,9 @@ function ProjectView() {
                         </div>
                     </div>
                     <div className="projectcontent">
-                        <div className="files"></div>
+                        <div className="files">
+                            <FileUpload></FileUpload>
+                        </div>
                         <ChatBox></ChatBox>
                     </div>
                 </div>
