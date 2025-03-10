@@ -13,7 +13,8 @@ function HomePage() {
     const [projects, setProjects] = useState(localStorage.getItem("Projects") ? JSON.parse(localStorage.getItem("Projects")) : [])
     const [projectName, setProjectName] = useState("")
     const [projectDescription, setProjectDescription] = useState("")
-    const [emailList, setEmailList] = useState("")
+    const [emailList, setEmailList] = useState([])
+    const [emailInputs, setEmailInputs] = useState([])
     const navigate = useNavigate();
 
     const openProject = (Project) => {
@@ -33,7 +34,7 @@ function HomePage() {
             handleInvitation(event)
             setProjectName("")
             setProjectDescription("")
-            setEmailList("")
+            setEmailList([])
         } else {
             toast.error("Please enter project name and description");
         }
@@ -47,19 +48,22 @@ function HomePage() {
         setProjectDescription(event.target.value)
     }
 
+    const handleInputs = () => {
+        setEmailInputs([...emailInputs, ''])
+    }
+
     const handleInvitation = (event) => {
         event.preventDefault();
         console.log(emailList)
         const templateParams = {
             to: emailList,
-            from_name: "TEST_NAME",
-            message: "THIS IS A TEST EMAIL INVITE http://localhost:5173/"
+            from_name: "CloudColabSpace",
+            message: "You've been invited to work on the project " + projectName + " http://localhost:5173/"
         };
 
         emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
         .then((response) => {
             console.log("Email sent successfully!", response);
-            setEmailList('');
         })
         .catch((error) => {
             console.error("Error sending email:", error);
@@ -91,7 +95,10 @@ function HomePage() {
                     <input type="text" className="project-input" placeholder="Project Name" value={projectName} onChange={handleProjectName}/>
                     <p>Description</p>
                     <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
-                    <p>Invite People</p>
+                    <p>Invite People <button onClick={handleInputs}>+</button></p>
+                    {/* {emailInputs.map((inputValue, index) => (
+                        <input key="index" type="text" className="project-input" placeholder="Email Address" value={inputValue}/>
+                    ))} */}
                     <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={(event) => setEmailList(event.target.value)}/>
                     <button className="create-button" onClick={handleProject}>Create project</button>
                 </div>
