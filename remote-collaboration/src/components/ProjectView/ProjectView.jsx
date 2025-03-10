@@ -45,17 +45,14 @@ function ProjectView() {
     )
 }
 
-// MOVE later
-// var x = [['green', 'hello'], ['blue', 'hey, when are we meeting?'], ['yellow', 'I thought today... No?'],
-// ['blue', 'I think we should meet sometime next week lets take a look at the schedule']];
-
-
 function ChatBox() {
 
     const [userData, setUserData] = useState([]);
     const divRef = useRef(null);
     const email = localStorage.getItem('email');
-    const projectID = "1"; // hardcoded for now, change later
+    const location = useLocation();
+    const project = location.state;
+    const projectID = project.name; // hardcoded for now, change later to grab location.state for linking projects to messages
     
     useEffect(() => {
         getMessages();
