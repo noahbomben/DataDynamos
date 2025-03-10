@@ -28,8 +28,16 @@ const projectSchema = new mongoose.Schema({
 });
 
 
+const messageSchema = new mongoose.Schema({
+  email: { type: String, required: true },
+  projectID: { type: String, required: true },
+  message: { type: String, required: true },
+  time: { type: String, required: true },
+});
+
 const Project = mongoose.model("Project", projectSchema,"projects")
-const User = mongoose.model("User", userSchema,"users")
+const User = mongoose.model("User", userSchema)
+const Message = mongoose.model("Message", messageSchema)
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -126,5 +134,51 @@ app.post("/api/getProjects", async (req, res) => {
   }
 
 })
+app.post("/api/messages", async (req, res) => {
+  const { email, projectID, message, time } = req.body;
+
+  if (!email || !projectID || !message || !time) {
+    return res.status(400).json({ message: "please provide all fields" });
+  }
+
+  try {
+    const user = await User.findOne({email})
+
+    if (!user) {  // validating before adding to db
+      return res.status(401).json({ message: "user does not exist" });
+    }
+
+    const newMessage = new Message({email, projectID, message, time});
+    await newMessage.save()
+    res.status(200).json({ message: "message added successfully"});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "error sending message", error: err.message });
+  }  
+
+});
+
+// TODO: Add listener to be alerted to new messages?
+app.get("/api/messages", async (req, res) => {
+
+  const { projectID } = req.query;
+    // add sanity check for if project exists
+  try {
+    const orderedArray = [];
+    const data = await Message.find({projectID})
+    const sortedData = data.sort((a, b) => parseInt(a.time) - parseInt(b.time)) // Sort by `time`
+      .map(({ email, message }) => ({ email, message }));
+    sortedData.map((item) => {
+      orderedArray.push([item.email, item.message]);
+    });
+
+
+    res.status(200).json({ data: orderedArray});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "error getting messages", error: err.message });
+  }  
+
+});
 
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
