@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import './ProjectView.css'
 import { useNavigate, useLocation } from "react-router-dom";
 import WhiteBoard from "../WhiteBoard/WhiteBoard";
@@ -14,7 +13,6 @@ function ProjectView() {
         navigate("/HomePage")
     }
     return(
-
         <>
             <div className="projectview_page">
                 <button className="close_project_button" onClick={closeProject}>Home</button>
@@ -53,18 +51,32 @@ var x = [['green', 'hello'], ['blue', 'hey, when are we meeting?'], ['yellow', '
 function ChatBox() {
 
     const [fakeData, setFakeData] = useState(x);
+    const divRef = useRef(null);
+
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [fakeData])
+
+    const scrollToBottom = () => {
+        if (divRef.current) {
+            divRef.current.scrollTop = divRef.current.scrollHeight;
+        } 
+    }
 
     return (
         <div className="chat">
-            {
-                fakeData.map((item) => {
-                    let profile = item[0];
-                    let msg = item[1];
-                    return(
-                        <Message profileIcon={profile} msg={msg}></Message>
-                    )
-                })
-            }
+            <div className="chat-scroll"  ref={divRef}>
+                {
+                    fakeData.map((item) => {
+                        let profile = item[0];
+                        let msg = item[1];
+                        return(
+                            <Message profileIcon={profile} msg={msg}></Message>
+                        )
+                    })
+                }
+            </div>
             <SendText setFakeData={setFakeData} fakeData={fakeData}></SendText>
         </div>
     )
