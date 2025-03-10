@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import emailjs from "@emailjs/browser";
@@ -10,35 +10,83 @@ const TEMPLATE_ID = "template_v3tskjp"
 const PUBLIC_KEY = 'PHYOYRckEi2J7d1MG'
 
 function HomePage() {
-    const [projects, setProjects] = useState(localStorage.getItem("Projects") ? JSON.parse(localStorage.getItem("Projects")) : [])
-    const [projectName, setProjectName] = useState("")
-    const [projectDescription, setProjectDescription] = useState("")
-    const [emailList, setEmailList] = useState([])
-    const [emailInputs, setEmailInputs] = useState([])
+    const [projects, setProjects] = useState([]);
+    const [projectName, setProjectName] = useState("");
+    const [projectDescription, setProjectDescription] = useState("");
+    const [emailList, setEmailList] = useState([]);
+    const [emailInputs, setEmailInputs] = useState([]);
+
+    //Loads projects from database
+    const loadProjects = async () =>{
+        const e = {
+            email: localStorage.getItem("email")
+        };
+        const newProjects = await fetch("http://localhost:3000/api/getProjects", {
+            method: "POST",
+            headers: {
+              "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(e)
+        });
+        const newProjectsData = await newProjects.json();
+        if (!newProjects.ok) {
+            toast.error(newProjectsData.message || "Couldn't fetch projects");
+            return
+        }
+        setProjects(newProjectsData.projects)
+    }
+    //Used to load projects on everyload.
+    useEffect(() => {
+        loadProjects();
+    }, [])
+    //Works same as useffect, but slower?
+    //loadProjects();
+    
     const navigate = useNavigate();
 
     const openProject = (Project) => {
         navigate("/ProjectView", { state: Project})
     }
 
-    const handleProject = () => {
-        if (projectName !== "" && projectDescription !== "") {
-            const newProjects = projects
-            const project = {
-                name: projectName,
-                description: projectDescription
-            }
-            newProjects.push(project)
-            localStorage.setItem("Projects", JSON.stringify(newProjects));
-            setProjects(newProjects)
-            handleInvitation(event)
-            setProjectName("")
-            setProjectDescription("")
-            setEmailList([])
-        } else {
+    const handleProject = async () => {
+        console.log("Creating Project");
+        
+        if (projectName == "" || projectDescription == "") {
             toast.error("Please enter project name and description");
+            return
+        }
+        try{
+            const project = {
+                email: localStorage.getItem("email"),
+                name: projectName,
+                description: projectDescription,
+                users: emailList
+            }
+            const response = await fetch("http://localhost:3000/api/createProject", {
+                method: "POST",
+                headers: {
+                  "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(project)
+            });
+
+            const responseData = await response.json();
+            if (!response.ok) {
+                toast.error(responseData.message || "Creating project failed. Please try again");
+                return
+            }
+            //This causes an error, so I commented it out for now.
+            //handleInvitation(event)
+            setProjectName("");
+            setProjectDescription("");
+            setEmailList([]);
+            loadProjects();     
+        } catch (error){
+            console.error("Project Creation error:", error);
+            toast.error("An error occurred during project creation. Please try again.")
         }
     }
+        
 
     const handleProjectName = (event) => {
         setProjectName(event.target.value)

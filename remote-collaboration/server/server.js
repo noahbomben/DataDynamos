@@ -20,7 +20,16 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
 });
 
-const User = mongoose.model("User", userSchema)
+const projectSchema = new mongoose.Schema({
+  userId: { type: mongoose.Types.ObjectId, required: true},
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  users: [],
+});
+
+
+const Project = mongoose.model("Project", projectSchema,"projects")
+const User = mongoose.model("User", userSchema,"users")
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -68,5 +77,54 @@ app.post("/api/login", async (req, res) => {
       return res.status(500).json({ message: "error finding user", error: err.message });
     }
   });
+
+app.post("/api/createProject", async (req, res) => {
+  const {email, name, description, users} = req.body;
+
+  if(!name || !description){
+    return res.status(400).json({ message: "Please enter all fields"});
+  }
+
+  try{
+    const user = await User.findOne({email});
+    const userId = user._id;
+    
+    const project = await Project.findOne({ userId, name });
+    if(project){
+      return res.status(401).json({ message: "Project created by this user already exists" })
+    }
+    //Assumes all users are signed up currently
+    const usersList = [];
+    for (let i = 0; i < users.length; i++){
+      const currentEmail = users[i];
+      const user = await User.findOne({email: currentEmail});
+      usersList.push(user._id);
+    }
+
+    const newProject = new Project({userId, name, description, users: usersList});
+    await newProject.save();
+    res.status(201).json({ message: "project created successfully", newProject});
+
+  } catch (error){
+    return res.status(500).json({ message: "error creating project", error: error.message });
+  }
+
+})
+
+app.post("/api/getProjects", async (req, res) => {
+  const {email} = req.body;
+  //Doesn't return projects you don't create
+  try{
+    const user = await User.findOne({email});
+    const userId = user._id;
+    
+    const projects = await Project.find({ userId});
+    res.status(200).json({ message: "projects retrived sucessfully", projects});
+
+  } catch (error){
+    return res.status(500).json({ message: "error retrieving projects", error: error.message });
+  }
+
+})
 
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
