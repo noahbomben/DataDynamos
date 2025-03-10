@@ -111,15 +111,15 @@ app.post("/api/createProject", async (req, res) => {
 
 })
 
-app.get("/api/getProjects", async (req, res) => {
+app.post("/api/getProjects", async (req, res) => {
   const {email} = req.body;
-
+  //Doesn't return projects you don't create
   try{
     const user = await User.findOne({email});
     const userId = user._id;
     
     const projects = await Project.find({ userId});
-    res.status(201).json({ message: "projects retrived sucessfully", projects});
+    res.status(200).json({ message: "projects retrived sucessfully", projects});
 
   } catch (error){
     return res.status(500).json({ message: "error retrieving projects", error: error.message });
