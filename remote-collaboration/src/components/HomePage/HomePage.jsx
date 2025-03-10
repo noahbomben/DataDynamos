@@ -1,13 +1,20 @@
 import React,{useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import emailjs from "@emailjs/browser";
 import "./HomePage.css";
+
+
+const SERVICE_ID = "service_phfpt64"
+const TEMPLATE_ID = "template_v3tskjp"
+const PUBLIC_KEY = 'PHYOYRckEi2J7d1MG'
 
 function HomePage() {
     const [projects, setProjects] = useState(localStorage.getItem("Projects") ? JSON.parse(localStorage.getItem("Projects")) : [])
     const [projectName, setProjectName] = useState("")
     const [projectDescription, setProjectDescription] = useState("")
-    const [emailList, setEmailList] = useState("")
+    const [emailList, setEmailList] = useState([])
+    const [emailInputs, setEmailInputs] = useState([])
     const navigate = useNavigate();
 
     const openProject = (Project) => {
@@ -24,9 +31,10 @@ function HomePage() {
             newProjects.push(project)
             localStorage.setItem("Projects", JSON.stringify(newProjects));
             setProjects(newProjects)
+            handleInvitation(event)
             setProjectName("")
             setProjectDescription("")
-            setEmailList("")
+            setEmailList([])
         } else {
             toast.error("Please enter project name and description");
         }
@@ -40,9 +48,26 @@ function HomePage() {
         setProjectDescription(event.target.value)
     }
 
+    const handleInputs = () => {
+        setEmailInputs([...emailInputs, ''])
+    }
+
     const handleInvitation = (event) => {
-        setEmailList(event.target.value)
-        //at some point, this will be used to send email invitations to collaborators
+        event.preventDefault();
+        console.log(emailList)
+        const templateParams = {
+            to: emailList,
+            from_name: "CloudColabSpace",
+            message: "You've been invited to work on the project " + projectName + " http://localhost:5173/"
+        };
+
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+        .then((response) => {
+            console.log("Email sent successfully!", response);
+        })
+        .catch((error) => {
+            console.error("Error sending email:", error);
+        });
     }
 
     const logout = () => {
@@ -70,8 +95,11 @@ function HomePage() {
                     <input type="text" className="project-input" placeholder="Project Name" value={projectName} onChange={handleProjectName}/>
                     <p>Description</p>
                     <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
-                    <p>Invite People</p>
-                    <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={handleInvitation}/>
+                    <p>Invite People <button onClick={handleInputs}>+</button></p>
+                    {/* {emailInputs.map((inputValue, index) => (
+                        <input key="index" type="text" className="project-input" placeholder="Email Address" value={inputValue}/>
+                    ))} */}
+                    <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={(event) => setEmailList(event.target.value)}/>
                     <button className="create-button" onClick={handleProject}>Create project</button>
                 </div>
                 <Calendar></Calendar>
