@@ -71,6 +71,7 @@ const LoginPage = () => {
       const responseData = await response.json()
       if (response.ok) {
         toast.success("Login Successfull")
+        localStorage.setItem("email", data.email)
         navigate("/HomePage")
       } else {
         toast.error(data.message || "Login failed. Please try again.");
