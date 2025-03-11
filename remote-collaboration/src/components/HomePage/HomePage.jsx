@@ -154,7 +154,7 @@ function HomePage() {
                     <input type="text" className="project-input" placeholder="Project Name" value={projectName} onChange={handleProjectName}/>
                     <p>Description</p>
                     <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
-                    <p>Invite People <button onClick={handleInputs}>+</button></p>
+                    <p>Invite People <button className="invite-button" onClick={handleInputs}>+</button></p>
                     {emailList.map((inputValue, index) => (
                         <input key={index} type="text" className="project-input" placeholder="Email Address" value={inputValue} onChange={(event) => handleInviteChange(event, index)}/>
                     ))}
