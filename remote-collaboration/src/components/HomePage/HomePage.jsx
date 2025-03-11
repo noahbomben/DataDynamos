@@ -14,7 +14,6 @@ function HomePage() {
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [emailList, setEmailList] = useState([]);
-    const [emailInputs, setEmailInputs] = useState([]);
 
     //Loads projects from database
     const loadProjects = async () =>{
@@ -69,14 +68,14 @@ function HomePage() {
                 },
                 body: JSON.stringify(project)
             });
-
             const responseData = await response.json();
             if (!response.ok) {
                 toast.error(responseData.message || "Creating project failed. Please try again");
                 return
             }
-            //This causes an error, so I commented it out for now.
-            //handleInvitation(event)
+            for (let i = 0; i < emailList.length; i++){
+                handleInvitation(i)
+            }
             setProjectName("");
             setProjectDescription("");
             setEmailList([]);
@@ -97,14 +96,18 @@ function HomePage() {
     }
 
     const handleInputs = () => {
-        setEmailInputs([...emailInputs, ''])
+        setEmailList([...emailList, ''])
     }
 
-    const handleInvitation = (event) => {
-        event.preventDefault();
-        console.log(emailList)
+    const handleInviteChange = (event, index) => {
+        const updatedEmailList = [...emailList];
+        updatedEmailList[index] = event.target.value;
+        setEmailList(updatedEmailList)
+    }
+
+    const handleInvitation = (index) => {
         const templateParams = {
-            to: emailList,
+            to: emailList[index],
             from_name: "CloudColabSpace",
             message: "You've been invited to work on the project " + projectName + " http://localhost:5173/"
         };
@@ -144,10 +147,10 @@ function HomePage() {
                     <p>Description</p>
                     <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
                     <p>Invite People <button onClick={handleInputs}>+</button></p>
-                    {/* {emailInputs.map((inputValue, index) => (
-                        <input key="index" type="text" className="project-input" placeholder="Email Address" value={inputValue}/>
-                    ))} */}
-                    <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={(event) => setEmailList(event.target.value)}/>
+                    {emailList.map((inputValue, index) => (
+                        <input key={index} type="text" className="project-input" placeholder="Email Address" value={inputValue} onChange={(event) => handleInviteChange(event, index)}/>
+                    ))}
+                    {/* <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={(event) => setEmailList(event.target.value)}/> */}
                     <button className="create-button" onClick={handleProject}>Create project</button>
                 </div>
                 <Calendar></Calendar>
