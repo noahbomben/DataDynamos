@@ -13,13 +13,13 @@
 }
 
 .projectview_page h1 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     color: black;
     /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 .projectview_page h2 {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     color: black;
     /* font-family: Arial, Helvetica, sans-serif; */
 }
@@ -34,7 +34,7 @@
     top: 20px;
     left: 20px;
     border-radius: 12px;
-    background-color: #4F46E5;
+    background-color: #469de5;
     color: white;
 }
 

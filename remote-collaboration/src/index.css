@@ -49,7 +49,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #469de5;;
 }
 
 @media (prefers-color-scheme: light) {

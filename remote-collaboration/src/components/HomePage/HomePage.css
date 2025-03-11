@@ -146,7 +146,7 @@ body {
     border-radius: 15px;
     width: 100%;
     color: white;
-    background-color: #4F46E5;
+    background-color: #469de5;;
 }
 
 
@@ -170,7 +170,7 @@ body {
 .logout_button {
     position: absolute;
     border-radius: 12px;
-    background-color: #4F46E5;
+    background-color: #469de5;;
     color: white;
     right: 18px;
     top: 18px;

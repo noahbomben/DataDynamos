@@ -54,6 +54,14 @@ function HomePage() {
             toast.error("Please enter project name and description");
             return
         }
+        if (projectName.length > 20) {
+            toast.error("Project name cannot exceed 20 characters");
+            return
+        }
+        if (projectDescription.length > 145) {
+            toast.error("Project description cannot exceed 145 characters");
+            return
+        }
         try{
             const project = {
                 email: localStorage.getItem("email"),
