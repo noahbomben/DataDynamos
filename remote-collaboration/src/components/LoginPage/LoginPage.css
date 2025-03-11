@@ -43,6 +43,9 @@ body {
     margin: 10px;
 }
 
+.login-buttons {
+    padding-top: 40px;
+}
 input.login-email, input.login-password {
     width: 100%;
     padding: 12px 20px;
