@@ -6,10 +6,21 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+// const Server = require("tailwind/dist/wires/api/http/Server");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATABASE_URL = "mongodb+srv://DataDynamos:Password123@cloudcollabspace.xqhui.mongodb.net/?retryWrites=true&w=majority&appName=CloudCollabSpace"
 const JWT_SECRET="mysecretkeysisverysecret"
+
+const { Server } = require('socket.io');
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*",  // Allow all origins (update for security)
+    methods: ["GET", "POST"]
+  }
+});
 
 mongoose.connect(DATABASE_URL)
     .then(() => console.log("Connected to MongoDB"))
@@ -124,6 +135,7 @@ app.post("/api/getProjects", async (req, res) => {
 
 })
 app.post("/api/messages", async (req, res) => {
+  console.log("here");
   const { email, projectID, message, time } = req.body;
 
   if (!email || !projectID || !message || !time) {
@@ -170,4 +182,29 @@ app.get("/api/messages", async (req, res) => {
 
 });
 
-app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+io.sockets.on('connection', function (socket) {
+    // set up connection
+  socket.on('join', function (data) {
+    socket.join(data.email);
+  })
+})
+
+// Message.watch() detects for database changes
+Message.watch().on('change', async data => {
+  try {
+    const _id = data.fullDocument.projectID;  // if its a message change grab the id
+    const project = await Project.findOne({ _id }); // find corresponding project
+    const users = project.users;  // get the users from the project
+    // tell all participants that they've recieved messages
+    users.map((item) => { 
+      io.sockets.in(item).emit('new_msg', {msg: 'new messages'});
+    })
+  } catch (error){
+    console.log(error);
+  }
+})
+
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+// app.listen(PORT, () => console.log(`server running on port ${PORT}`));
