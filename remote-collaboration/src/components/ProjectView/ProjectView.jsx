@@ -52,7 +52,7 @@ function ChatBox() {
     const email = localStorage.getItem('email');
     const location = useLocation();
     const project = location.state;
-    const projectID = project.name; // hardcoded for now, change later to grab location.state for linking projects to messages
+    const projectID = project._id; // hardcoded for now, change later to grab location.state for linking projects to messages
     
     useEffect(() => {
         getMessages();
