@@ -4,6 +4,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import WhiteBoard from "../WhiteBoard/WhiteBoard";
 import FileUpload from "../FileUpload/FileUpload";
 import toast, { Toaster } from "react-hot-toast";
+import { io } from "socket.io-client";
+
+// const socket = io("http://localhost:3000");
+const socket = io.connect("http://localhost:3000");
+
 
 function ProjectView() { 
     const navigate = useNavigate()
@@ -59,7 +64,16 @@ function ChatBox() {
         setTimeout(() => {
             scrollToBottom();
         }, 500);
-
+        // create unique chat room for live chats
+        socket.emit('join', {email: email}) // chat room id for receiving messages
+            // call back funcion for receiving messages
+        socket.on("new_msg", function(data) {
+            console.log("message recieved");
+            getMessages();
+            setTimeout(() => {
+                scrollToBottom();
+            }, 500);
+        })
     }, [])
 
     const getMessages = async () => {
