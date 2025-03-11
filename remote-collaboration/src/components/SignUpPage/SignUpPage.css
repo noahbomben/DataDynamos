@@ -41,6 +41,10 @@ body {
     margin: 10px;
 }
 
+.signup-buttons {
+    padding-top: 40px;
+}
+
 input.signup-email, input.signup-password {
     width: 100%;
     padding: 12px 20px;

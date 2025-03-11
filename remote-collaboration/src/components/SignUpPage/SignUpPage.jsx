@@ -77,9 +77,6 @@ const SignUpPage = () => {
       <div className="signup-container">
         <h1 id="signup-app-name">CloudSpace</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <h2 className="title">Sign up</h2>
-          </div>
           <div className="email-login">
             <label htmlFor="email"><b>Email</b></label>
             <input className="signup-email" type="email" placeholder="name@abc.com" {...register("email")} />

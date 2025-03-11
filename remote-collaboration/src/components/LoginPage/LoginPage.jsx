@@ -25,24 +25,6 @@ const LoginPage = () => {
   });
   const navigate = useNavigate();
 
-  // const changeEmail = (event) => {
-  //     setEmail(event.target.value);
-  // }
-
-  // const changePassword = (event) =>{
-  //     setPassword(event.target.value)
-  // }
-
-  // const handleLogin = () => {
-  //     console.log(email)
-  //     console.log(password)
-  //     if (email != "" && password != "") {
-  //         navigate('/HomePage');
-  //     }
-  //     else(
-  //         toast.error("Invalid username or password")
-  //     )
-  // }
 
   useEffect(() => {
     const errorKeys = Object.keys(errors);
@@ -109,9 +91,6 @@ const LoginPage = () => {
       <div className="login-container">
         <h1 id="login-app-name">CloudSpace</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <h2 className="title">Sign up</h2>
-          </div>
           <div className="email-login">
             <label htmlFor="email"><b>Email</b></label>
             <input className="login-email" type="email" placeholder="name@abc.com" {...register("email")} />
