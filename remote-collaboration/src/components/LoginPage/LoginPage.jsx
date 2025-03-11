@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Background from "../../assets/background-clouds.avif";
 
 import "./LoginPage.css";
