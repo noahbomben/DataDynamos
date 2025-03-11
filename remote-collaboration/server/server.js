@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
 });
 
 const projectSchema = new mongoose.Schema({
-  userId: { type: mongoose.Types.ObjectId, required: true},
+  email: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
   users: [],
@@ -94,43 +94,32 @@ app.post("/api/createProject", async (req, res) => {
   }
 
   try{
-    const user = await User.findOne({email});
-    const userId = user._id;
     
-    const project = await Project.findOne({ userId, name });
+    const project = await Project.findOne({ email, name });
     if(project){
       return res.status(401).json({ message: "Project created by this user already exists" })
     }
-    //Assumes all users are signed up currently
-    const usersList = [];
-    for (let i = 0; i < users.length; i++){
-      const currentEmail = users[i];
-      const user = await User.findOne({email: currentEmail});
-      usersList.push(user._id);
-    }
-
-    const newProject = new Project({userId, name, description, users: usersList});
+    const newProject = new Project({email, name, description, users});
     await newProject.save();
-    res.status(201).json({ message: "project created successfully", newProject});
+    res.status(201).json({ message: "Project created successfully", newProject});
 
   } catch (error){
-    return res.status(500).json({ message: "error creating project", error: error.message });
+    return res.status(500).json({ message: "Error creating project", error: error.message });
   }
 
 })
 
 app.post("/api/getProjects", async (req, res) => {
   const {email} = req.body;
-  //Doesn't return projects you don't create
   try{
-    const user = await User.findOne({email});
-    const userId = user._id;
-    
-    const projects = await Project.find({ userId});
-    res.status(200).json({ message: "projects retrived sucessfully", projects});
+    const createdProjects = await Project.find({email});
+    const otherProjects = await Project.find({ users: email });
+
+    const projects = createdProjects.concat(otherProjects)
+    res.status(200).json({ message: "Projects retrived sucessfully", projects});
 
   } catch (error){
-    return res.status(500).json({ message: "error retrieving projects", error: error.message });
+    return res.status(500).json({ message: "Error retrieving projects", error: error.message });
   }
 
 })
