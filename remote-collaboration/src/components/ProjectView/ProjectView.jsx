@@ -36,7 +36,9 @@ function ProjectView() {
                         <div className="members">
                             <h2>Members</h2>
                             <button> + </button>
+                            {/* Have this field be able to add people*/}
                         </div>
+                        <b>{project.users}</b>
                     </div>
                     <div className="projectcontent">
                         <div className="files">

@@ -28,6 +28,15 @@ const SignUpPage = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    const errorKeys = Object.keys(errors);
+    errorKeys.forEach((key, index) => {
+      setTimeout(() => {
+        toast.error(errors[key].message);
+      }, (index + 1) * 1000);
+    });
+  }, [errors]);
+
   const onSubmit = async (data) => {
     try{
       const response = await fetch("http://localhost:3000/api/signup", {
@@ -75,13 +84,13 @@ const SignUpPage = () => {
   return (
     <>
       <div className="signup-container">
-        <h1 id="signup-app-name">CloudSpace</h1>
+        <h1 id="signup-app-name">CloudCollabSpace</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="email-login">
             <label htmlFor="email"><b>Email</b></label>
             <input className="signup-email" type="email" placeholder="name@abc.com" {...register("email")} />
             <label htmlFor="password"><b>Password</b></label>
-            <input className="signup-password" type="password" placeholder="8+ characters" {...register("password")} />
+            <input className="signup-password" type="password" placeholder="6+ characters" {...register("password")} />
             <label htmlFor="confirmPassword"><b>Confirm Password</b></label>
             <input className="signup-password" type="password" placeholder="Repeat your password" {...register("confirmPassword")} />
           </div>
@@ -89,8 +98,9 @@ const SignUpPage = () => {
           <button id="signup-signup-button" type="submit">
             Sign Up
           </button>
-          <button id="signup-login-button" onClick={switchToLogin}>
-            login
+          <p>Already have an account?</p>
+          <button id="signup-login-button" type="button" onClick={switchToLogin}>
+            Login
           </button>
         </div>
       </form>

@@ -89,19 +89,20 @@ const LoginPage = () => {
   return (
     <>
       <div className="login-container">
-        <h1 id="login-app-name">CloudSpace</h1>
+        <h1 id="login-app-name">CloudCollabSpace</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="email-login">
             <label htmlFor="email"><b>Email</b></label>
             <input className="login-email" type="email" placeholder="name@abc.com" {...register("email")} />
             <label htmlFor="password"><b>Password</b></label>
-            <input className="login-password" type="password" placeholder="8+ characters" {...register("password")} />
+            <input className="login-password" type="password" placeholder="6+ characters" {...register("password")} />
           </div>
           <div className="login-buttons">
           <button id="login-login-button" type="submit">
             Login
           </button>
-          <button id="login-signup-button" onClick={switchToSignUp}>
+          <p>Don't have an account?</p>
+          <button id="login-signup-button" type="button" onClick={switchToSignUp}>
             Sign Up
           </button>
         </div>

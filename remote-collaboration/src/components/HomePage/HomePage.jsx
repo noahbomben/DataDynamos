@@ -108,7 +108,7 @@ function HomePage() {
     const handleInvitation = (index) => {
         const templateParams = {
             to: emailList[index],
-            from_name: "CloudColabSpace",
+            from_name: "CloudCollabSpace",
             message: "You've been invited to work on the project " + projectName + " http://localhost:5173/"
         };
 
