@@ -117,7 +117,6 @@ function ChatBox() {
     }
 
     const scrollToBottom = () => {
-        console.log("scrolling");
         if (divRef.current) {
             divRef.current.scrollTop = divRef.current.scrollHeight;
         } 
@@ -135,7 +134,7 @@ function ChatBox() {
                         )
                     })
                 }
-            </div> {/* Change later to condition render in different spots depending if current user sent*/}
+            </div>
             <SendText setUserData={setUserData} userData={userData} email={email} projectID={projectID} scrollToBottom={scrollToBottom}></SendText>  
         </div>
     )
@@ -200,7 +199,7 @@ function Message({email, msg}) {
     const removeDisplayedEmail = () => {
         setEmailDisplayed(false);
     }
-// e1e4e8 eceff3
+
     return (
         <>
             {userEmail !== email ? (
@@ -217,6 +216,5 @@ function Message({email, msg}) {
         </>
     )
 }
-
 
 export default ProjectView

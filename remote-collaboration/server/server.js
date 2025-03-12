@@ -6,7 +6,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const Server = require("tailwind/dist/wires/api/http/Server");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATABASE_URL = "mongodb+srv://DataDynamos:Password123@cloudcollabspace.xqhui.mongodb.net/?retryWrites=true&w=majority&appName=CloudCollabSpace"
@@ -135,7 +134,6 @@ app.post("/api/getProjects", async (req, res) => {
 
 })
 app.post("/api/messages", async (req, res) => {
-  console.log("here");
   const { email, projectID, message, time } = req.body;
 
   if (!email || !projectID || !message || !time) {
@@ -159,21 +157,18 @@ app.post("/api/messages", async (req, res) => {
 
 });
 
-// TODO: Add listener to be alerted to new messages?
 app.get("/api/messages", async (req, res) => {
 
-  const { projectID } = req.query;
-    // add sanity check for if project exists
+  const { projectID } = req.query;  // errors will be caught in catch
+
   try {
     const orderedArray = [];
-    const data = await Message.find({projectID})
-    const sortedData = data.sort((a, b) => parseInt(a.time) - parseInt(b.time)) // Sort by `time`
+    const data = await Message.find({projectID})   // no eror check needed, could be no messages exist
+    const sortedData = data.sort((a, b) => parseInt(a.time) - parseInt(b.time)) // Sort by time to preserve message order
       .map(({ email, message }) => ({ email, message }));
     sortedData.map((item) => {
       orderedArray.push([item.email, item.message]);
     });
-
-
     res.status(200).json({ data: orderedArray});
   } catch (err) {
     console.log(err);
@@ -183,7 +178,7 @@ app.get("/api/messages", async (req, res) => {
 });
 
 io.sockets.on('connection', function (socket) {
-    // set up connection
+    // set up individual room connection for users to recieve messages
   socket.on('join', function (data) {
     socket.join(data.email);
   })
@@ -191,7 +186,7 @@ io.sockets.on('connection', function (socket) {
 
 // Message.watch() detects for database changes
 Message.watch().on('change', async data => {
-  try {
+  try { // if anything fails here, nothing we can do just let user refresh page and messages will show from db
     const _id = data.fullDocument.projectID;  // if its a message change grab the id
     const project = await Project.findOne({ _id }); // find corresponding project
     const users = project.users;  // get the users from the project
@@ -200,6 +195,7 @@ Message.watch().on('change', async data => {
       io.sockets.in(item).emit('new_msg', {msg: 'new messages'});
     })
   } catch (error){
+    // no need to respond to anyone
     console.log(error);
   }
 })
@@ -207,4 +203,3 @@ Message.watch().on('change', async data => {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-// app.listen(PORT, () => console.log(`server running on port ${PORT}`));
