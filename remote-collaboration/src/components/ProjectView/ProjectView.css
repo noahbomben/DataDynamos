@@ -187,6 +187,16 @@
     color: white;
 }
 
+.email-display{
+    height: 40px;
+    width: 40px;
+    background-color: gray;
+    border-radius: 50%;
+    position: absolute;
+    font-size: 30px;
+    color: white;
+}
+
 .msg{
     background-color: #e9e9e9;
     display: flex;
@@ -202,3 +212,6 @@
     flex-direction: column;
 }
 
+.msg p{
+ overflow-wrap: break-word;   
+}

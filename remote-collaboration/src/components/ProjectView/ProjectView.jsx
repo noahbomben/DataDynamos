@@ -179,7 +179,6 @@ function Message({email, msg}) {
     const [emailDisplayed, setEmailDisplayed] = useState(false);
 
     const displayEmail = () => {
-        console.log("this far");
         setEmailDisplayed(true);
     }
 
@@ -191,14 +190,13 @@ function Message({email, msg}) {
         <>
             {userEmail !== email ? (
                 <div className="msg-container">
-                    {emailDisplayed ? console.log("hello") : null}
                     <div className="profile-icon" onMouseEnter={displayEmail} onMouseLeave={removeDisplayedEmail}>{email[0].toUpperCase()}</div>
-                    <div className="msg"><p style={{overflowWrap: "break-word"}}>{msg}</p></div>
+                    {emailDisplayed ? <div className="msg" style={{backgroundColor: '#4F46E5', color: 'white'}}><p>{email}</p></div> : <div className="msg"><p>{msg}</p></div>}
                 </div>
                 
             ) : (
                 <div className="msg-container" style={{justifyContent: "end"}}>
-                    <div className="msg"><p style={{overflowWrap: "break-word"}}>{msg}</p></div>
+                    <div className="msg"><p>{msg}</p></div>
                     <div className="profile-icon" style={{marginLeft: "2%", marginRight: "1%"}}>{email[0].toUpperCase()}</div>
                 </div>
             )}
