@@ -77,13 +77,18 @@
 }
 
 .members {
-    width: 30%;
+    width: 100%;
+    height: 50%;
     text-align: left;
     margin-top: 5px;
-    margin-left: 10px;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: center;
+}
+
+.members-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .members button {
@@ -101,6 +106,11 @@
 
 .members  button:hover {
     border: transparent;
+}
+
+.profile-icons-wrapper {
+    display: flex;
+    flex-direction: row;
 }
 
 .projectcontent {
@@ -198,7 +208,7 @@
 }
 
 .msg{
-    background-color: #e9e9e9;
+    background-color: #eceff3;
     display: flex;
     width: 80%;
     padding-left: 2%;
@@ -214,4 +224,5 @@
 
 .msg p{
  overflow-wrap: break-word;   
+ color: black;
 }
