@@ -5,8 +5,8 @@ import WhiteBoard from "../WhiteBoard/WhiteBoard";
 import FileUpload from "../FileUpload/FileUpload";
 import toast, { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
+import { map } from "zod";
 
-// const socket = io("http://localhost:3000");
 const socket = io.connect("http://localhost:3000");
 
 
@@ -14,6 +14,9 @@ function ProjectView() {
     const navigate = useNavigate()
     const location = useLocation();
     const project = location.state;
+    const curUser = localStorage.getItem('email');
+    const allUsers = [curUser, ... project.users];
+
 
     const closeProject = () => {
         navigate("/HomePage")
@@ -33,12 +36,23 @@ function ProjectView() {
                             <h1>{project.name}</h1>
                             <p>{project.description}</p>
                         </div>
-                        <div className="members">
-                            <h2>Members</h2>
-                            <button> + </button>
-                            {/* Have this field be able to add people*/}
+                        <div className="members-wrapper">
+                            <div className="members">
+                                <h2>Members</h2>
+                                <button> + </button>
+                                {/* Have this field be able to add people*/}
+                            </div>
+                            <div className="profile-icons-wrapper">
+                                {
+                                    allUsers.map((item, index) => {
+                                        return(
+                                            <div className="profile-icon" key={index}>{item[0].toUpperCase()}</div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
-                        <b>{project.users}</b>
+                        {/* <b>{project.users}</b> */}
                     </div>
                     <div className="projectcontent">
                         <div className="files">
@@ -59,7 +73,7 @@ function ChatBox() {
     const email = localStorage.getItem('email');
     const location = useLocation();
     const project = location.state;
-    const projectID = project._id; // hardcoded for now, change later to grab location.state for linking projects to messages
+    const projectID = project._id;
     
     useEffect(() => {
         getMessages();
@@ -72,7 +86,7 @@ function ChatBox() {
         socket.on("new_msg", function(data) {
             console.log("message recieved");
             getMessages();
-            setTimeout(() => {
+            setTimeout(() => { // wait for messages to load before scrolling down to latest messages
                 scrollToBottom();
             }, 500);
         })
@@ -113,11 +127,11 @@ function ChatBox() {
         <div className="chat">
             <div className="chat-scroll"  ref={divRef}>
                 {
-                    userData.map((item) => {
+                    userData.map((item, index) => {
                         let email = item[0];
                         let msg = item[1];
                         return(
-                            <Message email={email} msg={msg}></Message>
+                            <Message email={email} msg={msg} key={index}></Message>
                         )
                     })
                 }
@@ -137,8 +151,10 @@ function SendText({setUserData, userData, email, projectID, scrollToBottom}) {
     }
 
     const sendText = async () => {
-        const time = date.getTime();
+
+        const time = date.getTime();  // time stamp to store in db
         const data = {email, projectID, message, time}
+
         try {
             const response = await fetch("http://localhost:3000/api/messages", {
             method: "POST",
@@ -153,8 +169,7 @@ function SendText({setUserData, userData, email, projectID, scrollToBottom}) {
                 setUserData([... userData, [email, message]]); 
                 setMessage("");  
                 setTimeout(() => {
-                scrollToBottom();
-                    
+                    scrollToBottom();
                 }, 500);
             } else {
                 console.log(responseData);
@@ -166,7 +181,7 @@ function SendText({setUserData, userData, email, projectID, scrollToBottom}) {
         }
     }
 
-    return (  /* img cut off fix later*/
+    return (
         <div className="text-container">
             <input className="text" placeholder="Write message" onChange={updateText} value={message}></input>
             <button className="send-text" onClick={sendText}></button>
@@ -176,18 +191,26 @@ function SendText({setUserData, userData, email, projectID, scrollToBottom}) {
 
 function Message({email, msg}) {
     const userEmail = localStorage.getItem('email');
+    const [emailDisplayed, setEmailDisplayed] = useState(false);
 
+    const displayEmail = () => {
+        setEmailDisplayed(true);
+    }
+
+    const removeDisplayedEmail = () => {
+        setEmailDisplayed(false);
+    }
+// e1e4e8 eceff3
     return (
         <>
             {userEmail !== email ? (
                 <div className="msg-container">
-                    <div className="profile-icon">{email[0].toUpperCase()}</div>
-                    <div className="msg"><p style={{overflowWrap: "break-word"}}>{msg}</p></div>
+                    <div className="profile-icon" onMouseEnter={displayEmail} onMouseLeave={removeDisplayedEmail}>{email[0].toUpperCase()}</div>
+                    {emailDisplayed ? <div className="msg" style={{backgroundColor: '#469de5'}}><p style={{color: 'white'}}>{email}</p></div> : <div className="msg"><p>{msg}</p></div>}
                 </div>
-                
-            ) : (
+            ) : ( 
                 <div className="msg-container" style={{justifyContent: "end"}}>
-                    <div className="msg"><p style={{overflowWrap: "break-word"}}>{msg}</p></div>
+                    <div className="msg" style={{backgroundColor: '#e1e4e8'}}><p>{msg}</p></div>
                     <div className="profile-icon" style={{marginLeft: "2%", marginRight: "1%"}}>{email[0].toUpperCase()}</div>
                 </div>
             )}
