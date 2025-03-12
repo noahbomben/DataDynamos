@@ -57,7 +57,7 @@ function ChatBox() {
     const email = localStorage.getItem('email');
     const location = useLocation();
     const project = location.state;
-    const projectID = project._id; // hardcoded for now, change later to grab location.state for linking projects to messages
+    const projectID = project._id;
     
     useEffect(() => {
         getMessages();
@@ -70,7 +70,7 @@ function ChatBox() {
         socket.on("new_msg", function(data) {
             console.log("message recieved");
             getMessages();
-            setTimeout(() => {
+            setTimeout(() => { // wait for messages to load before scrolling down to latest messages
                 scrollToBottom();
             }, 500);
         })
@@ -174,12 +174,23 @@ function SendText({setUserData, userData, email, projectID, scrollToBottom}) {
 
 function Message({email, msg}) {
     const userEmail = localStorage.getItem('email');
+    const [emailDisplayed, setEmailDisplayed] = useState(false);
+
+    const displayEmail = () => {
+        console.log("this far");
+        setEmailDisplayed(true);
+    }
+
+    const removeDisplayedEmail = () => {
+        setEmailDisplayed(false);
+    }
 
     return (
         <>
             {userEmail !== email ? (
                 <div className="msg-container">
-                    <div className="profile-icon">{email[0].toUpperCase()}</div>
+                    {emailDisplayed ? console.log("hello") : null}
+                    <div className="profile-icon" onMouseEnter={displayEmail} onMouseLeave={removeDisplayedEmail}>{email[0].toUpperCase()}</div>
                     <div className="msg"><p style={{overflowWrap: "break-word"}}>{msg}</p></div>
                 </div>
                 
