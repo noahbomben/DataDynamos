@@ -7,7 +7,7 @@ body {
 }
 
 .project-page {
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(180, 202, 221);
     position: fixed;
     margin: 0;
     padding: 0;
@@ -146,10 +146,21 @@ body {
     border-radius: 15px;
     width: 100%;
     color: white;
-    background-color: #4F46E5;
+    background-color: #469de5;;
 }
 
+.invite-button {
+    background-color: white;
+}
 
+.logout_button {
+    position: absolute;
+    border-radius: 12px;
+    background-color: #469de5;;
+    color: white;
+    right: 18px;
+    top: 18px;
+}
 
 .calendar {
     grid-area: 1 / 3 / 2 / 4;
@@ -165,13 +176,4 @@ body {
     background-color: white;    
     /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7); */
 
-}
-
-.logout_button {
-    position: absolute;
-    border-radius: 12px;
-    background-color: #4F46E5;
-    color: white;
-    right: 18px;
-    top: 18px;
 }

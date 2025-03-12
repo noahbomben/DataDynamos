@@ -14,7 +14,6 @@ function HomePage() {
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [emailList, setEmailList] = useState([]);
-    const [emailInputs, setEmailInputs] = useState([]);
 
     //Loads projects from database
     const loadProjects = async () =>{
@@ -55,6 +54,14 @@ function HomePage() {
             toast.error("Please enter project name and description");
             return
         }
+        if (projectName.length > 20) {
+            toast.error("Project name cannot exceed 20 characters");
+            return
+        }
+        if (projectDescription.length > 145) {
+            toast.error("Project description cannot exceed 145 characters");
+            return
+        }
         try{
             const project = {
                 email: localStorage.getItem("email"),
@@ -69,14 +76,14 @@ function HomePage() {
                 },
                 body: JSON.stringify(project)
             });
-
             const responseData = await response.json();
             if (!response.ok) {
                 toast.error(responseData.message || "Creating project failed. Please try again");
                 return
             }
-            //This causes an error, so I commented it out for now.
-            //handleInvitation(event)
+            for (let i = 0; i < emailList.length; i++){
+                handleInvitation(i)
+            }
             setProjectName("");
             setProjectDescription("");
             setEmailList([]);
@@ -97,15 +104,19 @@ function HomePage() {
     }
 
     const handleInputs = () => {
-        setEmailInputs([...emailInputs, ''])
+        setEmailList([...emailList, ''])
     }
 
-    const handleInvitation = (event) => {
-        event.preventDefault();
-        console.log(emailList)
+    const handleInviteChange = (event, index) => {
+        const updatedEmailList = [...emailList];
+        updatedEmailList[index] = event.target.value;
+        setEmailList(updatedEmailList)
+    }
+
+    const handleInvitation = (index) => {
         const templateParams = {
-            to: emailList,
-            from_name: "CloudColabSpace",
+            to: emailList[index],
+            from_name: "CloudCollabSpace",
             message: "You've been invited to work on the project " + projectName + " http://localhost:5173/"
         };
 
@@ -143,11 +154,11 @@ function HomePage() {
                     <input type="text" className="project-input" placeholder="Project Name" value={projectName} onChange={handleProjectName}/>
                     <p>Description</p>
                     <input type="text" className="project-input" placeholder="Description" value={projectDescription} onChange={handleProjectDescription}/>
-                    <p>Invite People <button onClick={handleInputs}>+</button></p>
-                    {/* {emailInputs.map((inputValue, index) => (
-                        <input key="index" type="text" className="project-input" placeholder="Email Address" value={inputValue}/>
-                    ))} */}
-                    <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={(event) => setEmailList(event.target.value)}/>
+                    <p>Invite People <button className="invite-button" onClick={handleInputs}>+</button></p>
+                    {emailList.map((inputValue, index) => (
+                        <input key={index} type="text" className="project-input" placeholder="Email Address" value={inputValue} onChange={(event) => handleInviteChange(event, index)}/>
+                    ))}
+                    {/* <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={(event) => setEmailList(event.target.value)}/> */}
                     <button className="create-button" onClick={handleProject}>Create project</button>
                 </div>
                 <Calendar></Calendar>
