@@ -136,6 +136,9 @@ function HomePage() {
     return (
         <>
             <div className="project-page">
+                <div className="homepage-navbar"> 
+                    <div className="navbar-name"> CloudCollabSpace </div>
+                </div>
                 <button className="logout_button" onClick={logout}>Logout</button>
                 <div className="project-list">
                     <ul>
