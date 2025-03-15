@@ -102,14 +102,21 @@ app.post("/api/createProject", async (req, res) => {
   if(!name || !description){
     return res.status(400).json({ message: "Please enter all fields"});
   }
+  //Make sure added users are added twice and that it's not the creator
+  const uniqueUsers = [];
+  users.forEach( v => {
+    if( !(v == email || uniqueUsers.indexOf(v) != -1)){
+      uniqueUsers.push(v);
+    } 
+  });
 
   try{
-    
+    //Create project
     const project = await Project.findOne({ email, name });
     if(project){
       return res.status(401).json({ message: "Project created by this user already exists" })
     }
-    const newProject = new Project({email, name, description, users});
+    const newProject = new Project({email, name, description, users: uniqueUsers});
     await newProject.save();
     res.status(201).json({ message: "Project created successfully", newProject});
 
@@ -117,7 +124,7 @@ app.post("/api/createProject", async (req, res) => {
     return res.status(500).json({ message: "Error creating project", error: error.message });
   }
 
-})
+});
 
 app.post("/api/getProjects", async (req, res) => {
   const {email} = req.body;
@@ -126,13 +133,81 @@ app.post("/api/getProjects", async (req, res) => {
     const otherProjects = await Project.find({ users: email });
 
     const projects = createdProjects.concat(otherProjects)
-    res.status(200).json({ message: "Projects retrived sucessfully", projects});
+    res.status(200).json({ message: "Projects retreived sucessfully", projects});
 
   } catch (error){
     return res.status(500).json({ message: "Error retrieving projects", error: error.message });
   }
 
-})
+});
+
+app.post("/api/deleteProject", async (req, res) => {
+  const {_id} = req.body;
+
+  //Issues will occur if someone else is on the page at the time of deletion
+  try{
+    const ret = await Project.deleteOne({_id});
+    if (ret.deletedCount == 0){
+      res.status(500).json({ message: "Project doesn't exist"});
+    }
+    const ret2 = await Message.deleteMany({projectID: _id});
+    if(ret2.deletedCount == 0){
+      res.status(200).json({ message: "Project delete, No messages deleted"});
+    } else{
+      res.status(200).json({ message: "Messages and Project deleted"});
+    }
+    
+  } catch (error) {
+    return res.status(500).json({ message: "Error deleting project", error: error.message });
+  }
+});
+
+app.post("/api/leaveProject", async (req, res) => {
+  const {_id, email} = req.body;
+
+  //Issues will occur if someone else is on the page at the time of deletion
+  try{
+    //delete user from users array
+    const ret = await Project.updateOne({_id}, {$pull: {users: email}});
+    if (ret.modifiedCount == 0){
+      res.status(500).json({ message: "User couldn't be removed"});
+    }
+    //Delete their messages?
+    const ret2 = await Message.deleteMany({email, projectID: _id});
+    if (ret2.deletedCount == 0){
+      res.status(200).json({ message: "User removed. No messages deleted"});
+    } else{
+      res.status(200).json({ message: "User removed. Messages deleted"});
+    }
+
+  } catch (error) {
+    return res.status(500).json({ message: "Error removing user", error: error.message });
+  }
+});
+
+app.post("/api/addUserToProject", async (req, res) => {
+  const {email,_id } = req.body;
+
+  try{
+    //check if user in
+    const project = await Project.findOne({_id});
+    const index = project.users.indexOf(email);
+    if(index != -1){
+      res.status(500).json({ message: "User already in project"});
+    }
+    //add user to project
+    const ret = await Project.updateOne({_id}, {$push: {users: email}});
+    if (ret.modifiedCount != 0){
+      res.status(200).json({ message: "User added sucessfully"});
+    } else{
+      res.status(500).json({ message: "User couldn't be added"});
+    }
+    
+  } catch (error) {
+    return res.status(500).json({ message: "Error deleting project", error: error.message });
+  }
+});
+
 app.post("/api/messages", async (req, res) => {
   const { email, projectID, message, time } = req.body;
 
@@ -186,6 +261,10 @@ io.sockets.on('connection', function (socket) {
 
 // Message.watch() detects for database changes
 Message.watch().on('change', async data => {
+  //Bandaid fix for issue when deleting messages
+  if(!data.fullDocument){
+    return;
+  }
   try { // if anything fails here, nothing we can do just let user refresh page and messages will show from db
     const _id = data.fullDocument.projectID;  // if its a message change grab the id
     const project = await Project.findOne({ _id }); // find corresponding project
