@@ -144,9 +144,13 @@ function HomePage() {
                     <ul>
                         {
                             projects.map((Project) => (
-                                <button onClick={() => openProject(Project)}> <h2>{Project.name}</h2>
-                                {/* <br />--------------------<br /> */}
-                                <p>{Project.description}</p></button>
+                                <div>
+                                    <button onClick={() => openProject(Project)}> 
+                                        <h2>{Project.name}</h2>
+                                        <p>{Project.description}</p>
+                                    </button>
+                                </div>
+                                
                             ))
                         }
                     </ul>
