@@ -21,6 +21,9 @@ function ProjectView() {
         <>
             <Toaster></Toaster>
             <div className="projectview_page">
+                {/* <div className="projectpage-navbar"> 
+                    <div className="nav-name"> CloudCollabSpace </div>
+                </div> */}
                 <button className="close_project_button" onClick={closeProject}>Home</button>
                 <div className="projectview-container">
                     <div className="whiteboard-container">

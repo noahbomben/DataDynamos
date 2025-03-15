@@ -25,12 +25,32 @@ body {
     font-family: 'DM Sans', Arial, Helvetica, sans-serif;
 }
 
+.homepage-navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    width: 100vw;
+    height: 62px;
+}
+
+.navbar-name {
+    margin: 0;
+    padding: 0;
+    margin-left: 10px;
+    height: fit-content;
+    color: #469de5;
+    font-size: 40px;
+    font-weight: 600;
+}
+
 .project-list {
     /* position: absolute;
     top: 80px;
     left: 100px; */
     grid-area: 1 / 1 / 2 / 2;
-    margin: 4.3rem 0;
+    margin: 5.3rem 0;
+    margin-bottom: 4.2rem;
     margin-left: 2rem;
     padding: 0;
     padding-right: 1rem;
@@ -90,7 +110,8 @@ body {
 .create-project {
     grid-area: 1 / 2 / 2 / 3;
     box-sizing: border-box;
-    margin: 5rem auto;
+    margin: 6rem auto;
+    margin-bottom: 0;
     height: fit-content;
     width: 100%;
     padding: 0 2rem 2rem 2rem;
@@ -149,6 +170,10 @@ body {
     background-color: #469de5;;
 }
 
+.create-button:hover {
+    background-color: #4195da;
+}
+
 .invite-button {
     background-color: white;
 }
@@ -156,15 +181,19 @@ body {
 .logout_button {
     position: absolute;
     border-radius: 12px;
-    background-color: #469de5;;
+    background-color: #469de5;
     color: white;
-    right: 18px;
-    top: 18px;
+    right: 15px;
+    top: 10px;
+}
+
+.logout_button:hover {
+    background-color: #4195da;
 }
 
 .calendar {
     grid-area: 1 / 3 / 2 / 4;
-    margin: 5rem 5rem 5rem 1rem;
+    margin: 6rem 5rem 0rem 1rem;
     height: fit-content;
     border-radius: 20px;
     padding: 1rem;
