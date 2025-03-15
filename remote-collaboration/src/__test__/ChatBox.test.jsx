@@ -22,6 +22,7 @@ describe("ChatBox Component", () => {
             </Routes>
           </MemoryRouter>
         );
+        // wait for api requests to finish
         await act(async () => {
             await new Promise((resolve) => setTimeout(resolve, 2000));
         }); 
