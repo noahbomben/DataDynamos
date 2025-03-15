@@ -107,6 +107,14 @@
     background-color: white;
     border-radius: 20px;
 }
+.delete-Button {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    border-radius: 12px;
+    background-color: red;
+    color: white;
+}
 
 .info {
     width: 70%;

@@ -81,7 +81,6 @@ body {
     /* border: 5px solid white; */
     /* opacity: 93%; */
     text-align: left;
-
 }
 
 .project-list h2 {
@@ -176,6 +175,7 @@ body {
 
 .invite-button {
     background-color: white;
+    color: black;
 }
 
 .logout_button {
