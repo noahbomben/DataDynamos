@@ -143,8 +143,8 @@ function HomePage() {
                 <div className="project-list">
                     <ul>
                         {
-                            projects.map((Project) => (
-                                <div>
+                            projects.map((Project, index) => (
+                                <div key={index}>
                                     <button onClick={() => openProject(Project)}> 
                                         <h2>{Project.name}</h2>
                                         <p>{Project.description}</p>
@@ -165,7 +165,6 @@ function HomePage() {
                     {emailList.map((inputValue, index) => (
                         <input key={index} type="text" className="project-input" placeholder="Email Address" value={inputValue} onChange={(event) => handleInviteChange(event, index)}/>
                     ))}
-                    {/* <input type="text" className="project-input" placeholder="Email Address" value={emailList} onChange={(event) => setEmailList(event.target.value)}/> */}
                     <button className="create-button" onClick={handleProject}>Create project</button>
                 </div>
                 <Calendar></Calendar>
