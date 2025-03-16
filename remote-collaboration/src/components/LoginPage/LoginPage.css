@@ -42,8 +42,12 @@ body {
     background-color: rgb(235, 235, 235);
     padding: auto;
     margin: 10px;
+    color: black;
+    background-color: darkgray;
 }
-
+.login-buttons p {
+    color: black;
+}
 .login-buttons {
     padding-top: 40px;
 }
@@ -56,4 +60,8 @@ input.login-email, input.login-password {
     box-sizing: border-box;
     box-shadow: 0 1px 2px gray;
     outline-style: none;
+}
+
+.login-login-button{
+    color: black;
 }

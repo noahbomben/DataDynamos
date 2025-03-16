@@ -39,6 +39,14 @@ body {
 .signup-buttons button {
     padding: auto;
     margin: 10px;
+    color: black;
+    background-color: darkgray;
+}
+
+.signup-buttons p {
+
+    color: black;
+
 }
 
 .signup-buttons {
