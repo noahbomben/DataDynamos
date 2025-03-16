@@ -93,9 +93,9 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="email-login">
             <label htmlFor="email"><b>Email</b></label>
-            <input className="login-email" type="email" placeholder="name@abc.com" {...register("email")} />
+            <input className="login-email" id="email" type="email" placeholder="name@abc.com" {...register("email")} />
             <label htmlFor="password"><b>Password</b></label>
-            <input className="login-password" type="password" placeholder="6+ characters" {...register("password")} />
+            <input className="login-password" id="password" type="password" placeholder="6+ characters" {...register("password")} />
           </div>
           <div className="login-buttons">
           <button id="login-login-button" type="submit">

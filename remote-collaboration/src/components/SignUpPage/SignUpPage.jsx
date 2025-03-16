@@ -88,11 +88,11 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="email-login">
             <label htmlFor="email"><b>Email</b></label>
-            <input className="signup-email" type="email" placeholder="name@abc.com" {...register("email")} />
+            <input className="signup-email" id="signupEmail" type="email" placeholder="name@abc.com" {...register("email")} />
             <label htmlFor="password"><b>Password</b></label>
-            <input className="signup-password" type="password" placeholder="6+ characters" {...register("password")} />
+            <input className="signup-password" id="signupPassword" type="password" placeholder="6+ characters" {...register("password")} />
             <label htmlFor="confirmPassword"><b>Confirm Password</b></label>
-            <input className="signup-password" type="password" placeholder="Repeat your password" {...register("confirmPassword")} />
+            <input className="signup-password" id="confirmPassword" type="password" placeholder="Repeat your password" {...register("confirmPassword")} />
           </div>
           <div className="signup-buttons">
           <button id="signup-signup-button" type="submit">

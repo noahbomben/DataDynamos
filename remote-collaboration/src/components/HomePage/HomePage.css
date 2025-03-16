@@ -176,6 +176,9 @@ body {
 .invite-button {
     background-color: white;
     color: black;
+    height: 40px;
+    width: 40px;
+    padding: 0;
 }
 
 .logout_button {

@@ -39,6 +39,7 @@ body {
 
 
 .login-buttons button {
+    background-color: rgb(235, 235, 235);
     padding: auto;
     margin: 10px;
 }
