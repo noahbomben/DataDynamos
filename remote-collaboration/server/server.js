@@ -150,7 +150,7 @@ app.post("/api/setList", async (req, res) => {
     const toDoList = await List.findOne({ date, email });
     if (toDoList){
         //Update existing list
-        const ret = List.updateOne({ date, email }, { list: list });
+        const ret = await List.updateOne({ date, email }, { list: list });
         if (ret.modifiedCount != 0){
           res.status(200).json({ message: "List updated sucessfully"});
         } else{

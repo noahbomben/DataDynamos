@@ -10,17 +10,8 @@ const parseDate = (day) => {
 
 function CalendarList (){
     const [date, setDate] = useState(new Date());
-    /*const initialList = () => {
-        if (localStorage.getItem(parseDate(date))) {
-            return(JSON.parse(localStorage.getItem(parseDate(date))));
-        } else {
-            return (['']);
-        }
-    }
-    const [toDoList, setToDoList] = useState(initialList());
-    */
+    const [loaded, setLoad] = useState(false);
     const loadList = async (date) =>{
-        console.log("Checking for lists...");
         const e = {
             date : parseDate(date),
             email : localStorage.getItem("email")
@@ -33,19 +24,20 @@ function CalendarList (){
             body: JSON.stringify(e)
         });
         const newListData = await newToDoList.json();
-        if (!newToDoList.ok || !newListData.list) {
-            console.log("...none found");
+        if (!newToDoList.ok || !newListData || !newListData.toDoList) {
             document.getElementById(0).value = '';
             return(['']);
         } else {
-            console.log(newListData.list);
-            document.getElementById(0).value = newListData.list[0];
-            return(newListData.list);
+            document.getElementById(0).value = newListData.toDoList.list[0];
+            return(newListData.toDoList.list);
         }
     }
     const [toDoList, setToDoList] = useState(['']);
+    if (loaded===false){
+        setLoad(true);
+        loadList(date).then((value) => {setToDoList(value)});
+    }
     const setList = async () => {
-        console.log("Setting list...");
             try{
                 const newlist = {
                     date : parseDate(date),
@@ -71,19 +63,8 @@ function CalendarList (){
             }
     }
     const changeDate = (newDate) => {
-
         setDate(newDate);
-
-        /*if (localStorage.getItem(parseDate(newDate))) {
-            setToDoList(JSON.parse(localStorage.getItem(parseDate(newDate))));
-            document.getElementById(0).value = JSON.parse(localStorage.getItem(parseDate(newDate)))[0];
-        }
-        else {
-            setToDoList(['']);
-            document.getElementById(0).value = '';
-        }*/
-
-        loadList(newDate);
+        loadList(newDate).then((value) => {setToDoList(value)});
 
  }
     const changeList = (event, index) => {
@@ -93,10 +74,6 @@ function CalendarList (){
     }
     const handleInputs = () => {
         setToDoList([...toDoList, '']);
-    }
-    const saveList = () => {
-        //localStorage.setItem(parseDate(date), JSON.stringify(toDoList));
-        setList();
     }
 
     return (
@@ -115,7 +92,7 @@ function CalendarList (){
                         </li>
                     ))}
                 </ul>
-                <button className="list-button" onClick={saveList}>Save</button>
+                <button className="list-button" onClick={setList}>Save</button>
             </div>
         </div>
     )
