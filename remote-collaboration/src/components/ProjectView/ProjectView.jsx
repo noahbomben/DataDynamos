@@ -5,14 +5,19 @@ import WhiteBoard from "../WhiteBoard/WhiteBoard";
 import FileUpload from "../FileUpload/FileUpload";
 import ChatBox from "../ChatBox/ChatBox";
 import { toast } from "react-toastify";
+import emailjs from "@emailjs/browser";
 
+const SERVICE_ID = "service_phfpt64"
+const TEMPLATE_ID = "template_v3tskjp"
+const PUBLIC_KEY = 'PHYOYRckEi2J7d1MG'
 
 function ProjectView() { 
     const navigate = useNavigate()
     const location = useLocation();
     const project = location.state;
     const curUser = localStorage.getItem('email');
-    const allUsers = [curUser, ... project.users];
+    const allUsers = [... project.users];
+    const [newUser, setNewUser] = useState("");
 
     const closeProject = () => {
         navigate("/HomePage");
@@ -63,6 +68,55 @@ function ProjectView() {
             // toast.error("An error occured during project deletion. Please try again.")
         }
     }
+
+    const addUSer = () => {
+
+    }
+
+    const handleInviteChange = (event) => {
+        setNewUser(event.target.value);
+    }
+
+    const handleInvitation = async () => {
+        try{
+            const input = {
+                _id : project._id,
+                email : newUser
+            }
+
+            const add = await fetch("http://localhost:3000/api/addUserToProject", {
+                method: "POST",
+                headers: {
+                  "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(input)
+            });
+
+            if(!add.ok){
+                return;
+            }
+        } catch (error) {
+            console.error("User added error:", error);
+        }
+        
+        const templateParams = {
+            to: newUser,
+            from_name: "CloudCollabSpace",
+            message: "You've been invited to work on the project " + project.name + " https://bucolic-salmiakki-8dc5f3.netlify.app/"
+        };
+
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+        .then((response) => {
+            console.log("Email sent successfully!", response);
+            toast.success("Invitation sent successfully!");
+
+        })
+        .catch((error) => {
+            console.error("Error sending email:", error);
+            toast.error("Error sending invitation");
+        });
+        setNewUser("")
+    }
     
     return(
         <>
@@ -89,19 +143,18 @@ function ProjectView() {
                         </div>
                         <div className="members-wrapper">
                             <div className="members">
-                                <h2>Members</h2>
-                                <button> + </button>
-                                {/* Have this field be able to add people*/}
-                            </div>
-                            <div className="profile-icons-wrapper">
-                                {
-                                    allUsers.map((item, index) => {
-                                        const firstLetter = item[0].toUpperCase();
-                                        return(
-                                            <div className="profile-icon" key={index}>{firstLetter}</div>
-                                        )
-                                    })
-                                }
+                                <h2>Members <input type="text" className="project-input" placeholder="Email Address" onChange={(event) => handleInviteChange(event)}/></h2>
+                                <button onClick={handleInvitation}> + </button>
+                                <div className="profile-icons-wrapper">
+                                    {
+                                        allUsers.map((item, index) => {
+                                            const firstLetter = item[0].toUpperCase();
+                                            return(
+                                                <div className="profile-icon" key={index}>{firstLetter}</div>
+                                            )
+                                        })
+                                    }
+                                </div>
                             </div>
                         </div>
                         {/* <b>{project.users}</b> */}

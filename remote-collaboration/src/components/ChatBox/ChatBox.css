@@ -60,11 +60,13 @@
 .profile-icon{
     height: 40px;
     width: 40px;
+    margin-top: 20px;
     background-color: gray;
     border-radius: 50%;
     display: inline-block;
     font-size: 30px;
     margin-right: 2%;
+    text-align: center;
     color: white;
 }
 
