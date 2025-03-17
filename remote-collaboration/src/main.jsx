@@ -4,6 +4,8 @@ import './index.css'
 import App from './components/App/App.jsx'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import "semantic-ui-css/semantic.min.css";
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
