@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import emailjs from "@emailjs/browser";
 import "./HomePage.css";
-
+import CalendarList from "../Calendar/CalendarList";
 
 const SERVICE_ID = "service_phfpt64"
 const TEMPLATE_ID = "template_v3tskjp"
@@ -167,34 +167,11 @@ function HomePage() {
                     ))}
                     <button className="create-button" onClick={handleProject}>Create project</button>
                 </div>
-                <Calendar></Calendar>
+                <CalendarList></CalendarList>
             </div>
         </>
     );
 }
 
-function Calendar (){
-    return (
-        <div className="calendar">
-            <h1> Weekly Calendar</h1>
-            <dl>
-                <dt>Sunday</dt>
-                <dd>To do:</dd>
-                <dt>Monday</dt>
-                <dd>To do:</dd>
-                <dt>Tuesday</dt>
-                <dd>To do:</dd>
-                <dt>Wednesday</dt>
-                <dd>To do:</dd>
-                <dt>Thursday</dt>
-                <dd>To do:</dd>
-                <dt>Friday</dt>
-                <dd>To do:</dd>
-                <dt>Saturday</dt>
-                <dd>To do:</dd>
-            </dl>
-        </div>
-    )
-}
 
 export default HomePage;
