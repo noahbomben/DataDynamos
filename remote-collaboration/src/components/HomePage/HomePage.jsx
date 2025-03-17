@@ -140,7 +140,7 @@ function HomePage() {
                     <div className="navbar-name"> CloudCollabSpace </div>
                 </div>
                 <button className="logout_button" onClick={logout}>Logout</button>
-                <div className="project-list">
+                <div className="project-list" id="Project List">
                     <ul>
                         {
                             projects.map((Project, index) => (
@@ -155,7 +155,7 @@ function HomePage() {
                         }
                     </ul>
                 </div>
-                <div className="create-project">
+                <div className="create-project" id="Create Project">
                     <h1>Create New Project +</h1>
                     <p>Project Name</p>
                     <input type="text" className="project-input" placeholder="Project Name" value={projectName} onChange={handleProjectName}/>
