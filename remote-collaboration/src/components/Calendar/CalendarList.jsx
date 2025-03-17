@@ -4,48 +4,88 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 
 
+const parseDate = (day) => {
+    return (''+(day.getMonth()+1)+'/'+day.getDate()+'/'+day.getFullYear());
+}
+
 function CalendarList (){
-    const [toDoList, setToDoList] = useState(['']);
     const [date, setDate] = useState(new Date());
-    //const [userLists, setUserLists] = useState([]);
-    //localStorage.setItem(date.getTime(), toDoList);
-    /*const loadLists = async () =>{
+    /*const initialList = () => {
+        if (localStorage.getItem(parseDate(date))) {
+            return(JSON.parse(localStorage.getItem(parseDate(date))));
+        } else {
+            return (['']);
+        }
+    }
+    const [toDoList, setToDoList] = useState(initialList());
+    */
+    const loadList = async (date) =>{
+        console.log("Checking for lists...");
         const e = {
-            email: localStorage.getItem("email")
+            date : parseDate(date),
+            email : localStorage.getItem("email")
         };
-        const newToDoLists = await fetch("http://localhost:3000/api/getToDoLists", {
+        const newToDoList = await fetch("http://localhost:3000/api/getList", {
             method: "POST",
             headers: {
               "Content-Type" : "application/json"
             },
             body: JSON.stringify(e)
         });
-        const newListData = await newToDoLists.json();
-        if (!newToDoLists.ok) {
-            toast.error(newListData.message || "Couldn't fetch projects");
-            return
+        const newListData = await newToDoList.json();
+        if (!newToDoList.ok || !newListData.list) {
+            console.log("...none found");
+            document.getElementById(0).value = '';
+            return(['']);
+        } else {
+            console.log(newListData.list);
+            document.getElementById(0).value = newListData.list[0];
+            return(newListData.list);
         }
-        setUserLists(newListData.lists)
-    }*/
+    }
+    const [toDoList, setToDoList] = useState(['']);
+    const setList = async () => {
+        console.log("Setting list...");
+            try{
+                const newlist = {
+                    date : parseDate(date),
+                    email: localStorage.getItem("email"),
+                    list: toDoList,
+                }
+                const response = await fetch("http://localhost:3000/api/setList", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify(newlist)
+                });
+                const responseData = await response.json();
+                if (!response.ok) {
+                    toast.error(responseData.message || "Updating to-do list failed. Please try again");
+                    return
+                }
+                    
+            } catch (error){
+                console.error("To-do list error:", error);
+                toast.error("An error occurred during updating the to-do list. Please try again.")
+            }
+    }
     const changeDate = (newDate) => {
-        console.log("Current date: " + date);
-        console.log(toDoList);
 
         setDate(newDate);
 
-        if (localStorage.getItem(parseDate(newDate))) {
+        /*if (localStorage.getItem(parseDate(newDate))) {
             setToDoList(JSON.parse(localStorage.getItem(parseDate(newDate))));
             document.getElementById(0).value = JSON.parse(localStorage.getItem(parseDate(newDate)))[0];
-            console.log("Data exists!");
         }
         else {
             setToDoList(['']);
             document.getElementById(0).value = '';
-        }
+        }*/
 
-        console.log("New date: " + newDate);
-        console.log(JSON.parse(localStorage.getItem(parseDate(newDate))));
-    }
+        loadList(newDate);
+
+ }
     const changeList = (event, index) => {
         var newList = [...toDoList];
         newList[index] = event.target.value;
@@ -55,12 +95,8 @@ function CalendarList (){
         setToDoList([...toDoList, '']);
     }
     const saveList = () => {
-        localStorage.setItem(parseDate(date), JSON.stringify(toDoList));
-        console.log(toDoList);
-        //TODO: Connect to database
-    }
-    const parseDate = (day) => {
-        return (''+(day.getMonth()+1)+'/'+day.getDate()+'/'+day.getFullYear());
+        //localStorage.setItem(parseDate(date), JSON.stringify(toDoList));
+        setList();
     }
 
     return (
