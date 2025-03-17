@@ -10,7 +10,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "build-css": "tailwindcss build src/LoginPage/LoginPage.css -o public/styles.css"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -24,6 +25,8 @@
     "react-hot-toast": "^2.5.2",
     "react-router-dom": "^7.1.3",
     "react-toastify": "^11.0.5",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "socket.io-client": "^4.8.1",
     "tailwind": "^4.0.0",
     "toast": "^0.5.4",
@@ -39,7 +42,7 @@
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^3.0.8",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.4.21",
     "concurrently": "^9.1.2",
     "eslint": "^9.17.0",
     "eslint-plugin-react": "^7.37.2",
@@ -47,8 +50,8 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "nodemon": "^3.1.9",
-    "postcss": "^8.5.1",
-    "tailwindcss": "^4.0.1",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.14",
     "vite": "^6.0.5",
     "vitest": "^3.0.8"
   }
