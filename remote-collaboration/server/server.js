@@ -45,9 +45,16 @@ const messageSchema = new mongoose.Schema({
   time: { type: String, required: true },
 });
 
+const listSchema = new mongoose.Schema({
+  email: { type: String, required: true },
+  date: { type: String, required: true },
+  list: [],
+});
+
 const Project = mongoose.model("Project", projectSchema,"projects")
 const User = mongoose.model("User", userSchema)
 const Message = mongoose.model("Message", messageSchema)
+const List = mongoose.model("List", listSchema)
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -125,6 +132,41 @@ app.post("/api/createProject", async (req, res) => {
     return res.status(500).json({ message: "Error creating project", error: error.message });
   }
 
+});
+
+app.post("/api/getList", async (req, res) => {
+  const {date, email} = req.body;
+  try {
+    const toDoList = await List.findOne({ date, email });
+    res.status(200).json({ message: "List retreived sucessfully", toDoList});
+  } catch (err) {
+    return res.status(500).json({ message: "Error retrieving list", error: err.message });
+  }
+});
+
+app.post("/api/setList", async (req, res) => {
+  const {date, email, list} = req.body;
+  try {
+    //check if list exists
+    const toDoList = await List.findOne({ date, email });
+    if (toDoList){
+        //Update existing list
+        const ret = await List.updateOne({ date, email }, { list: list });
+        if (ret.modifiedCount != 0){
+          res.status(200).json({ message: "List updated sucessfully"});
+        } else{
+          res.status(500).json({ message: "List couldn't be updated"});
+        }
+    } else {
+        //create new list
+        const newList = new List({ date, email, list });
+        await newList.save();
+        res.status(201).json({ message: "To-Do List created successfully"});
+    }
+  }
+  catch (err){
+    res.status(500).json({ message: "Error saving changes to the to-do list", error: err.message});
+  }
 });
 
 app.post("/api/getProjects", async (req, res) => {
@@ -205,7 +247,7 @@ app.post("/api/addUserToProject", async (req, res) => {
     }
     
   } catch (error) {
-    return res.status(500).json({ message: "Error deleting project", error: error.message });
+    return res.status(500).json({ message: "Error editing project", error: error.message });
   }
 });
 
