@@ -21,6 +21,8 @@ const io = require('socket.io')(server, {
   }
 });
 
+const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
 mongoose.connect(DATABASE_URL)
     .then(() => console.log("Connected to MongoDB"))
     .catch((error) => console.log("Failed to connect to MongoDB", error));
@@ -109,11 +111,10 @@ app.post("/api/createProject", async (req, res) => {
   if(!name || !description){
     return res.status(400).json({ message: "Please enter all fields"});
   }
-  //Make sure added users are added twice and that it's not the creator
+  //Make sure added users are not added twice and that it's not the creator
   const uniqueUsers = [];
-  uniqueUsers.push(email);
   users.forEach( v => {
-    if( !(uniqueUsers.indexOf(v) != -1)){
+    if( !(v == email || uniqueUsers.indexOf(v) != -1) && emailRegex.test(v)){
       uniqueUsers.push(v);
     } 
   });
@@ -229,14 +230,20 @@ app.post("/api/leaveProject", async (req, res) => {
 });
 
 app.post("/api/addUserToProject", async (req, res) => {
-  const {email,_id } = req.body;
+  const {email, _id } = req.body;
+  //validate email
+  if(!emailRegex.test(email)){ 
+    res.status(500).json({ message: "Invalid Email"});
+    return;
+  }
 
   try{
-    //check if user in
+    //check if user in or
     const project = await Project.findOne({_id});
     const index = project.users.indexOf(email);
-    if(index != -1){
+    if(index != -1 || email == project.email){
       res.status(500).json({ message: "User already in project"});
+      return;
     }
     //add user to project
     const ret = await Project.updateOne({_id}, {$push: {users: email}});
@@ -246,8 +253,8 @@ app.post("/api/addUserToProject", async (req, res) => {
       res.status(500).json({ message: "User couldn't be added"});
     }
     
-  } catch (error) {
-    return res.status(500).json({ message: "Error editing project", error: error.message });
+  } catch (error) { 
+    return res.status(500).json({ message: "Error adding user to project", error: error.message });
   }
 });
 
