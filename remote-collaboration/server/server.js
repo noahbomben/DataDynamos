@@ -104,8 +104,9 @@ app.post("/api/createProject", async (req, res) => {
   }
   //Make sure added users are added twice and that it's not the creator
   const uniqueUsers = [];
+  uniqueUsers.push(email);
   users.forEach( v => {
-    if( !(v == email || uniqueUsers.indexOf(v) != -1)){
+    if( !(uniqueUsers.indexOf(v) != -1)){
       uniqueUsers.push(v);
     } 
   });

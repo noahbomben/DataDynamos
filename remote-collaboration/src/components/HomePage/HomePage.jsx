@@ -117,7 +117,7 @@ function HomePage() {
         const templateParams = {
             to: emailList[index],
             from_name: "CloudCollabSpace",
-            message: "You've been invited to work on the project " + projectName + " http://localhost:5173/"
+            message: "You've been invited to work on the project " + projectName + " https://bucolic-salmiakki-8dc5f3.netlify.app/"
         };
 
         emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
